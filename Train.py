@@ -15,7 +15,7 @@ import os; from os import listdir; from os.path import isfile, join
 from architecture import *
 
 # Image specifications
-img_height = 128; img_width = 128; img_channels = 3; batch_size = 1; rel_path = 'E:\Projects\Samsung_Internship';
+img_height = 128; img_width = 128; img_channels = 3; batch_size = 1; rel_path = 'E:\Projects';
 
 # Define some placeholders
 with tf.name_scope("Placeholders"):
@@ -73,12 +73,13 @@ def generate_fake_validation_images(sess, epoch):
     loc = './Dataset/Validation/'; num_images = 90;
     file_loc = [rel_path + loc + s for s in os.listdir(rel_path + loc)]
     val_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(file_loc))
-    val_dataset = val_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), [img_height, img_width]), 127.5), 1))
+    val_dataset = val_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), 
+                                                                                      [img_height, img_width]), 127.5), 1))
 
     val_iterator = val_dataset.make_one_shot_iterator(); next_element = val_iterator.get_next()
     
-    if not os.path.exists("./Output/Validation/epoch_" + str(epoch) + "/"):
-        os.makedirs("./Output/Validation/epoch_" + str(epoch) + "/")
+    if not os.path.exists("./Output/epoch_" + str(epoch) + "/"):
+        os.makedirs("./Output/epoch_" + str(epoch) + "/")
     
     for i in range(0, num_images):
         
@@ -91,8 +92,8 @@ def generate_fake_validation_images(sess, epoch):
             fake_gen_img = sess.run(fake_img, feed_dict = {input_A: next_image})
             
 #           Save the fake image at the specified location
-            plt.imsave("./Output/Validation/epoch_" + str(epoch) + "/img_" + str(i) + "_fake.png",((fake_gen_img[0] + 1)*127.5).astype(np.uint8))
-            plt.imsave("./Output/Validation/epoch_" + str(epoch) + "/img_" + str(i) + ".png",((next_image[0] + 1)*127.5).astype(np.uint8))
+            plt.imsave("./Output/epoch_" + str(epoch) + "/img_" + str(i) + "_fake.png",((fake_gen_img[0] + 1)*127.5).astype(np.uint8))
+            plt.imsave("./Output/epoch_" + str(epoch) + "/img_" + str(i) + ".png",((next_image[0] + 1)*127.5).astype(np.uint8))
             
         except tf.errors.OutOfRangeError: break
 
@@ -166,7 +167,8 @@ if Train:
     comp_dir = '/images/Composite/';
     comp_fileloc = [rel_path + comp_dir + s for s in sorted(os.listdir(rel_path + comp_dir), key = sort_composite_filename)]
     comp_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(comp_fileloc));
-    comp_dataset = comp_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), [img_height, img_width]), 127.5), 1))
+    comp_dataset = comp_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), 
+                                                                                        [img_height, img_width]), 127.5), 1))
 
     # Sorting the filename wrt unique indices of each image
     def sort_natural_filename(x): return int(x[4:-4])
@@ -175,7 +177,8 @@ if Train:
     nat_dir = '/images/Natural/'
     nat_fileloc = [rel_path + nat_dir + s for s in sorted(os.listdir(rel_path + nat_dir), key = sort_natural_filename)]
     nat_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(nat_fileloc));
-    nat_dataset = nat_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), [img_height, img_width]), 127.5), 1))
+    nat_dataset = nat_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), 
+                                                                                      [img_height, img_width]), 127.5), 1))
 
     # Create a final dataset by zipping the above two [in order to ensure that composite and its ground truth are together]
     train_dataset = tf.data.Dataset.zip((comp_dataset, nat_dataset)).shuffle(2000).repeat()
@@ -227,7 +230,8 @@ if Test:
     loc = './Dataset/Test/';
     file_loc = [rel_path + loc + s for s in os.listdir(rel_path + loc)]
     test_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(file_loc))
-    test_dataset = test_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), [img_height, img_width]), 127.5), 1))
+    test_dataset = test_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), 
+                                                                                        [img_height, img_width]), 127.5), 1))
 
 #   Initialize the test iterator
     test_iterator = test_dataset.make_one_shot_iterator(); test_next_element = test_iterator.get_next()
