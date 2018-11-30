@@ -9,7 +9,8 @@ Original file is located at
 
 import tensorflow as tf; tf.set_random_seed(42);
 
-def conv_2d(x, kernel_size, stride, out_channels, is_conv = True, is_norm = True, normalization = 'instance', is_act = True, activation = 'lrelu', leak_param = 0.2, padding = 'VALID'):
+def conv_2d(x, kernel_size, stride, out_channels, is_conv = True, is_norm = True, normalization = 'instance', is_act = True, 
+            activation = 'lrelu', leak_param = 0.2, padding = 'VALID'):
     
     """
     Arguments:
@@ -43,10 +44,11 @@ def conv_2d(x, kernel_size, stride, out_channels, is_conv = True, is_norm = True
 #   Applying Convolution after doing mirror padding keeping the output size same as that of an input
     if is_conv == True:
         if(padding == 'VALID'):     
-            x = tf.pad(x, [[0, 0], [(kernel_size-1)//2, (kernel_size-1)//2], [(kernel_size-1)//2, (kernel_size-1)//2], [0, 0]], mode = 'REFLECT')
+            x = tf.pad(x, [[0, 0], [(kernel_size-1)//2, (kernel_size-1)//2], [(kernel_size-1)//2, (kernel_size-1)//2], [0, 0]], 
+                       mode = 'REFLECT')
            
-        x = tf.layers.conv2d(x, filters = out_channels, kernel_size = kernel_size, strides = stride, padding = padding, use_bias = not is_norm, 
-                             kernel_initializer = tf.contrib.layers.xavier_initializer_conv2d())
+        x = tf.layers.conv2d(x, filters = out_channels, kernel_size = kernel_size, strides = stride, padding = padding, 
+                             use_bias = not is_norm, kernel_initializer = tf.contrib.layers.xavier_initializer_conv2d())
         
 #   Applying Normalization
     if is_norm == True:
@@ -57,8 +59,8 @@ def conv_2d(x, kernel_size, stride, out_channels, is_conv = True, is_norm = True
     return x
 
   
-def conv_2d_transpose(x, kernel_size, stride, out_channels, is_deconv = True, is_act = True, activation = 'relu', leak_param = 0.2, is_norm = True, 
-                      normalization = 'instance', is_dropout = False, dropout = 0.5):
+def conv_2d_transpose(x, kernel_size, stride, out_channels, is_deconv = True, is_act = True, activation = 'relu', leak_param = 0.2, 
+                      is_norm = True, normalization = 'instance', is_dropout = False, dropout = 0.5):
   
     """
     Arguments:
