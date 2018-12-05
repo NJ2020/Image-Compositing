@@ -27,8 +27,9 @@ nor are there any publicly available datasets for Image Compositing.
 
 As I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts as already described above in much detail. 
 
-**1)** Running an **instance segmentation** over the first image to extract the relevant subject from it and then, to automatically detect the most reasonable region among many in the second image, where subject from the first image would not look out of place.
-**2)** Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground and background to gove it a more realistic touch.
+**1)** Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically detect the most consistent region among many in the second image, where subject from the first image would not look out of place.
+
+**2)** Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground and background to give it a photo-realistic touch.
 
 
 
