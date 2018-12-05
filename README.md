@@ -19,7 +19,9 @@ That was the first part of the problem, coming to the second - The lighting cond
 
 **1)** People can create and share their memories just like a collage for their **personal use.**
 
-**2) Anime industry** can use it to create CGI scenes by skipping the intermediate step of 3D rendering of an object.       
+**2) Anime industry** can use it to create CGI scenes by skipping the intermediate step of 3D rendering of an object.     
+
+
 
 
 
@@ -27,6 +29,7 @@ That was the first part of the problem, coming to the second - The lighting cond
 
 ## Results
 ![1](https://user-images.githubusercontent.com/41862477/49270708-952ca880-f490-11e8-86a7-e9b5e2e483ad.JPG)
+
 ![out_1](https://user-images.githubusercontent.com/41862477/49270712-95c53f00-f490-11e8-97c6-878247047365.JPG)
 
 ![2](https://user-images.githubusercontent.com/41862477/49270709-95c53f00-f490-11e8-8ca8-384542f324dc.JPG)
