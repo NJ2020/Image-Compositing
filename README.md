@@ -15,21 +15,21 @@ That was the first part of the problem, coming to the second - The lighting cond
 
 ## Motivation
 
-*One can think of many potential use cases of it, but I would like to state few, which I can think off the top of head. We can do all the things mentioned below in Photoshop, but that would require a lot of manual labor and large computations.*
+*One can think of many potential use cases of it, but I would like to state few, which I can think off the top of the head. We can do all the things mentioned below in Photoshop, but that would require a lot of manual labor and large computations.*
 
-**1)** People can create and share their memories just like a collage for their **personal use.**
+> **1)** People can create and share their memories just like a collage for their **personal use.**
 
-**2) Anime industry** can use it to create CGI scenes by skipping the intermediate step of 3D rendering of an object.    
+> **2) Anime industry** can use it to create CGI scenes by skipping the intermediate step of 3D rendering of an object.    
 
 ## Problem Breakdown
-> The exciting part about the project was that neither has this Image to Image translation problem been explored much by Deep Learning
+The exciting part about the project was that neither has this Image to Image translation problem been explored much by Deep Learning
 nor are there any publicly available datasets for Image Compositing. 
 
 As I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts as already described above in much detail. 
 
-**1)** Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically detect the most consistent region among many in the second image, where subject from the first image would not look out of place.
+> **1)** Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically detect the most consistent region among many in the second image, where subject from the first image would not look out of place.
 
-**2)** Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground and background to give it a photo-realistic touch.
+> **2)** Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground and background to give it a photo-realistic touch.
 
 
 
