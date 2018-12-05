@@ -15,11 +15,13 @@ That was the first part of the problem, coming to the second - The lighting cond
 
 ## Motivation
 
-One can think of many potential use cases of it, but I would like to state few, which I can think off the top of head:
+One can think of many potential use cases of it, but I would like to state few, which I can think off the top of head. We can do all the things mentioned below in Photoshop, but that would require a lot of manual labor and large computations.
 
-**1) Movie Industry** can use it to create CGI scenes       **2) Personal use:** People can create and share their memories just like the collage 
+**1)** People can create and share their memories just like a collage for their **personal use.**
 
-**3) Low Computations & Inference Time:** We can do all these things in photoshop, but that will require a lot of manual labor and large computations.
+**2) Anime industry** can use it to create CGI scenes by skipping the intermediate step of 3D rendering of an object.       
+
+
 
 
 
