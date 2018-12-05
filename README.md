@@ -1,6 +1,8 @@
-# Image Compositing
+# Image Compositing 
 
 #### *Note: This work was done by me during the internship at Samsung Research Institute last summer. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones.*
+
+
 
 ## Aim
 **In short, the aim was to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.**
@@ -45,11 +47,8 @@ background (this acts as a proxy for a extracted subject picked from the first s
 
 
 
-
-
 ## Results
 ![1](https://user-images.githubusercontent.com/41862477/49270708-952ca880-f490-11e8-86a7-e9b5e2e483ad.JPG)
-
 ![out_1](https://user-images.githubusercontent.com/41862477/49270712-95c53f00-f490-11e8-97c6-878247047365.JPG)
 
 ![2](https://user-images.githubusercontent.com/41862477/49270709-95c53f00-f490-11e8-8ca8-384542f324dc.JPG)
