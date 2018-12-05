@@ -5,7 +5,7 @@
 ## Aim
 **In short, the aim was to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.**
 
-*You might be thinking, what does that even mean?*
+> *You might be thinking, what does that even mean?*
 
 Let me try to make things simple and explain it to you in layman language with the help of an example. Suppose we have two selfies, so what we want to do is, extract any one individual (usually pointed out by the user by a click) from the first selfie and paste it automatically at the best possible location in the second selfie, so that the composite doesn't look weird. *I will be using the word subject to refer to the individual extracted from the first selfie, from now on to keep the discussion manageable.* Now, if you start thinking about it, this seems to be a very complicated task since finding the best among many of the possible salient regions in the second selfie, while keeping in mind the spatial relationship between the subject and background (second selfie) is not a trivial thing to do. The algorithm should be very robust to scale and rotational invariance. 
 
@@ -15,7 +15,7 @@ That was the first part of the problem, coming to the second - The lighting cond
 
 ## Motivation
 
-One can think of many potential use cases of it, but I would like to state few, which I can think off the top of head. We can do all the things mentioned below in Photoshop, but that would require a lot of manual labor and large computations.
+*One can think of many potential use cases of it, but I would like to state few, which I can think off the top of head. We can do all the things mentioned below in Photoshop, but that would require a lot of manual labor and large computations.*
 
 **1)** People can create and share their memories just like a collage for their **personal use.**
 
