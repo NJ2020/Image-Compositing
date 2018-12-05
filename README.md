@@ -31,6 +31,16 @@ As I started pondering on how to approach this complex task at hand, I decided t
 
 > **2)** Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground and background to give it a photo-realistic touch.
 
+Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using COCO segmented data, to be used as an input to the latter half. Creating a meaningful dataset while keeping the final aim of the project in mind
+was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
+
+> **1)** Picked any two random images from the whole dataset (original COCO dataset) in which the category people covered a significant portion of the image. 
+
+> **2)** Masked a random subject from the first image and applied Image processing techniques like histogram equalization, random perturbation in brightness/contrast, transferring the color of the second image to the masked subject of the first image and, few other techniques so to say. 
+
+*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its
+background (this acts as a proxy for a extracted subject picked from the first selfie pasted into another).*
+
 
 
 
