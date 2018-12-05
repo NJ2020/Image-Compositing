@@ -1,8 +1,12 @@
 # Image Compositing
 
-## Abstract
-*The aim of the project is to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.*
-As you noted, it's difficult to describe the aim in one line. So, let's break things up in small pieces, and spend some time together to figure out every minute detail about it. Suppose we have any two selfies. What we want to do is extract one subject (can be anyone pointed out by the user) from the first selfie and paste it at the best possible location in the second selfie (the composite shouldn't look odd when the subject from 1st selfie gets placed in the second one). Now, this is a challenging task since finding one of the many possible salient regions for the subject in the second selfie, while keeping in mind the spatial relationship is not a trivial thing to do. The algorithm should also be robust to scale and rotational invariance of the extracted subject from the first selfie. 
+#### *Note: This was the work done by me during the internship at Samsung Research Institute. This is a very intriguing problem which I think is very relevant from industrial research point of view for companies that are working on AI driven smartphones.*
+
+## Aim
+*The aim of this project was to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.*
+
+You might be thinking, what does that even mean? 
+Let me try to make things simple and explain it to you in layman language with the help of an example. Suppose we have two selfies, so what we want to do is, extract any one individual (usually pointed out by the user by a click) from the first selfie and paste it at the best possible location in the second selfie, so that the composite doesn't look odd when the subject gets placed. I will be using the word subject to refer to the individual extracted from the first selfie from now on to keep the discussion manageable. Now, this is a very complicated task since finding the best among many of the possible salient regions in the second selfie, while keeping in mind the spatial relationship between the subject and background (second selfie) is not a trivial thing to do. The algorithm should be very robust to scale and rotational invariance of the subject. After we are done with this part, we have another obstacle in our way. The lighting condition of the two selfies can be completely different (one can be clicked in hot temperature, other one in cold or one can be in bright day light and other one in low dim night light). So, we need to somehow match the lighting conditions of the background and foreground in a way that it looks like that both (or more than two) subjects were present while clicking the selfie. Hope, I was able to explain you the aim of the project. 
 
 
 ## Results
