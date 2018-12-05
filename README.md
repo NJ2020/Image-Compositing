@@ -1,6 +1,6 @@
 # Image Compositing
 
-#### *Note: This was the work done by me during the internship at Samsung Research Institute. This is a very intriguing problem which I think is very relevant from industrial research point of view for companies that are working on AI driven smartphones.*
+#### *Note: This work was done by me during the internship at Samsung Research Institute last summer. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones.*
 
 ## Aim
 *The aim of this project was to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.*
