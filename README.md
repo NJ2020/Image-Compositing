@@ -16,8 +16,8 @@ That was the first part of the problem, coming to the second - The lighting cond
 ## Motivation
 
 One can think of many potential use cases of it, but I would like to state few, which I can think off the top of head:
-**1) Movie industry:** To use it for CGI scenes.  **2) Personal use:** To create and share memories just like collage. 
-**3) Reduced computations:** These all can be achieved by photoshop but that requires a whole lot of manual labor and huge computations. This way we can reduce the inference time by a large margin.  
+
+**1) Movie Industry** can use it to create their CGI scenes.  **2) Personal use:** People can create and share their memories just like collage. **3) Reduced Computations & Low Inference Time** These all can be achieved by Photoshop but that would require a whole lot of manual labor and huge computations.  
 
 ## Results
 ![1](https://user-images.githubusercontent.com/41862477/49270708-952ca880-f490-11e8-86a7-e9b5e2e483ad.JPG)
