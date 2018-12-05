@@ -13,6 +13,11 @@ That was the first part of the problem, coming to the second - The lighting cond
 
 ***So, this was the final aim and hope that I was able to explain it clearly.*** 
 
+## Motivation
+
+One can think of many potential use cases of it, but I would like to state few, which I can think off the top of head:
+**1) Movie industry:** To use it for CGI scenes.  **2) Personal use:** To create and share memories just like collage. 
+**3) Reduced computations:** These all can be achieved by photoshop but that requires a whole lot of manual labor and huge computations. This way we can reduce the inference time by a large margin.  
 
 ## Results
 ![1](https://user-images.githubusercontent.com/41862477/49270708-952ca880-f490-11e8-86a7-e9b5e2e483ad.JPG)
