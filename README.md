@@ -55,7 +55,25 @@ COCO dataset has originally around 40,000 images in which category **people** co
 
 Given the dataset and final aim in mind, I reduced the whole task to **Image to Image translation** problem (Motivated by this astounding paper [Pix2pix](https://arxiv.org/pdf/1611.07004.pdf)). In analogy to automatic language translation, automatic image-to-image translation refers to the task of translating one possible representation of an image into another, given sufficient training data. I deployed **Conditional Generative Adversarial networks** not only to learn the mapping from the input image to the output image but also to learn a loss function to train this mapping. This generic approach alleviated the problems that would traditionally require very different loss formulations (Image compositing has already been thoroughly investigated by Image Processing community, and there are numerous proposals to get some decent results by following some specific, well-defined approach. However, they aren't scalable at all for obvious reasons).
 
+## Pix2pix
 
+> ***If you are unfamiliar with GANs, I would request you to look into my tutorials (GAN_Zoo) and then proceed forward.***
+
+From now on, I will only be giving you the overview of **Pix2pix** paper and the changes (mostly in the architecture and loss function) that I made to make the model work properly, remaining details are nearly the same. Like other GANs, Conditional GANs also have one discriminator (or critic depending on the loss function you are using) and one generator, and it tries to learn a conditional generative model which makes it suitable for image-to-image translation tasks, where we condition on an input image and generate a corresponding output image. 
+
+> If mathematically expressed, CGANs learn a mapping from observed image X and random noise vector z, to y, G : {x, z} → y. The generator G is trained to produce outputs that cannot be distinguished from **real** images by an adversarially trained discriminator, D, which is trained to do as well as possible at identifying the generator’s **fakes**.
+
+### Loss Function
+
+The objective of a conditional GAN can be expressed as: **LcGAN (G, D) = Ex,y(log D(x, y)) + Ex,z(log(1 − D(x, G(x, z)))** where G tries to minimize this objective against an adversarial D that tries to maximize it, i.e. **G∗ = argmin(G)max(D) LcGAN (G, D)**. It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance. **LL1(G) = Ex,y,z(||y − G(x, z)||)**.
+
+> Without z, the net could still learn a mapping from x to y, but would produce deterministic outputs, and therefore fail to match any distribution other than a **delta function**. Instead, the authors of Pix2pix provided noise only in the form of **dropout**, applied on several layers of the generator at **both training and test time**.
+
+The objective (Min-Max) that I mentioned above was used in the original paper when GAN was first proposed by **Ian Goodfellow** in 2014, but unfortunately, it didn't perform well due to vanishing gradients problems (I won't go into the details here; refer to my GAN tutorials for more details). Since then, there has been a lot of development, and many other researchers have proposed different kinds of loss functions (LS-GAN, WGAN, WGAN-GP) to overcome these issues. Authors of this paper used **Least-square** objective function while running their optimization process. 
+
+None of the loss functions are optimal in every scenario, it's always task dependent (maybe WGAN performs better than LS-GAN in one task, while the other way around, in some other task). Moreover, there was a recent paper by **Google** which also addressed this issue and showed that all loss functions give you nearly the same results, with the only condition that you need to do extensive hyper-parameter optimization. Training GANs is very tricky, and it will never work in the first attempt. You might even have to look into the capacity of your architecture. There was one recent theoretical paper on GANs by [Sanjeev Arora](https://arxiv.org/abs/1706.08224) in which he mentioned that the generator's capacity should be as large as twice the capacity of the discriminator. 
+
+> ***From the above discussion, you can conclude that its very difficult to train the GANs. One spends a lot of time tweaking the hyper-parameters to make the model work properly.***
 
 
 
