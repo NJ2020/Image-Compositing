@@ -11,15 +11,15 @@ Let me try to make things simpler and explain it to you in layman language with 
 
 >*I will be using the word subject to refer to the individual extracted from the first selfie, from now on, to keep the discussion manageable.* 
 
-Now, if you start thinking about it, this seems to be a very complicated task since finding the best location among many possible ones in the second selfie, while keeping in mind the spatial relationship between the subject and background (second selfie) is not a trivial thing to do. The algorithm should be very robust to scale and rotational invariance. 
+Now, if you do a proper thought experiment, this seems to be a very complicated task since finding the best location in the second selfie among many possible ones, while also keeping in mind the spatial relationship between the subject and background (second selfie) is not a trivial thing to do. The algorithm should be very robust to scale and rotational invariance.
 
-Assuming we somehow managed to do the first part, still, we have another major challenge to solve - The lighting condition of the two selfies can be completely different (one can be in broad light, another one in backlight or one can be in bright daylight and another one in low dim nightlight). So, we also need to match the lighting conditions of the background (second selfie) and foreground (subject) in a way that the overall composite looks natural. It should be clear by looking at the composite that both the individuals were present while clicking the selfie.
+Assuming we somehow found the solution of the above problem, still, we have another major difficulty in our way - The lighting condition of the two selfies can be completely different (one can be in broad light, another one in backlight or one can be in bright daylight and another one in low dim nightlight). So, we also need to match the lighting conditions of the background (second selfie) and foreground (subject) in a way that the overall composite looks natural. It should be clear by looking at the composite that both the individuals were present while clicking the selfie.
 
 >***So, this was the final aim and hope that I was able to explain it clearly.*** 
 
 ## Motivation
 
-*One can think of many potential use cases of it, but I would like to state few which I can think off, the top of my head. We all can do these things mentioned below in Photoshop but that would require a lot of manual labor, and considerable inference time.*
+*One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We all can do things mentioned below, in Photoshop, but that would require a lot of manual labor and a significant inference time.*
 
 - People can create and share their memories just like a collage for their **personal use.**
 
