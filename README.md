@@ -67,9 +67,9 @@ From now on, I will only be giving you the overview of **Pix2pix** paper and the
 
 The objective of a conditional GAN can be expressed as:
 
-> ```**LcGAN (G, D) = Ex,y (log D(x, y)) + Ex,z (log(1 − D(x, G(x, z)))**``` where G tries to minimize this objective against an adversarial D that tries to maximize it, i.e. 
+> **```LcGAN (G, D) = Ex,y (log D(x, y)) + Ex,z (log(1 − D(x, G(x, z)))```** where G tries to minimize this objective against an adversarial D that tries to maximize it, i.e. 
 
-> ```**G = arg min(G)max(D) LcGAN (G, D)**```. It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance. ```**LL1(G) = Ex,y,z ( ||y − G(x, z)|| )**```.
+> **```G = arg min(G)max(D) LcGAN (G, D)```**. It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance. **```L(G) = Ex,y,z ( ||y − G(x, z)|| )```**.
 
 Without z, the net could still learn a mapping from x to y, but would produce deterministic outputs, and therefore fail to match any distribution other than a **delta function**. Instead, the authors of Pix2pix provided noise only in the form of **dropout**, applied on several layers of the generator at **both training and test time**.
 
