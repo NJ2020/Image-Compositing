@@ -107,11 +107,15 @@ The original patch-gan was giving some weird artifacts due to the fact that, it 
 
 
 ## Results
-![1](https://user-images.githubusercontent.com/41862477/49270708-952ca880-f490-11e8-86a7-e9b5e2e483ad.JPG)
-![out_1](https://user-images.githubusercontent.com/41862477/49270712-95c53f00-f490-11e8-97c6-878247047365.JPG)
 
-![2](https://user-images.githubusercontent.com/41862477/49270709-95c53f00-f490-11e8-8ca8-384542f324dc.JPG)
-![out_2](https://user-images.githubusercontent.com/41862477/49270713-965dd580-f490-11e8-92dd-cdd37dd2e3be.JPG)
+![1](https://user-images.githubusercontent.com/41862477/49601383-b66b2880-f9ab-11e8-93fb-f1ec685103f6.JPG)
+![2](https://user-images.githubusercontent.com/41862477/49601384-b703bf00-f9ab-11e8-95dd-362c31ea561b.JPG)
+![3](https://user-images.githubusercontent.com/41862477/49601386-b703bf00-f9ab-11e8-91a1-5f75e862b431.JPG)
 
-![3](https://user-images.githubusercontent.com/41862477/49270711-95c53f00-f490-11e8-99cc-47ec16ddc6d6.JPG)
-![out_3](https://user-images.githubusercontent.com/41862477/49270714-965dd580-f490-11e8-8fe9-f889bd42fd2f.JPG)
+![out_1](https://user-images.githubusercontent.com/41862477/49601387-b79c5580-f9ab-11e8-87a1-b1d2738f9f1b.JPG)
+![out_2](https://user-images.githubusercontent.com/41862477/49601388-b79c5580-f9ab-11e8-9ef1-54e70b88aa0a.JPG)
+![out_3](https://user-images.githubusercontent.com/41862477/49601389-b79c5580-f9ab-11e8-8a91-e462031f2d4e.JPG)
+
+***
+
+## Thanks for going through this post!
