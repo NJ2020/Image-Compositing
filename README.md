@@ -9,7 +9,7 @@
 
 Let me try to make things simpler and explain it to you in layman language with the help of an example. Suppose we have two selfies, so what we want to do is, extract any one individual (usually pointed out by the user through a click) from the first selfie and paste it automatically at the best possible location in the second selfie, without making the composite look unnatural. 
 
->*I will be using the word subject to refer to the individual extracted from the first selfie from now on, to keep the discussion manageable.* 
+>*I will be using the word subject to refer to the individual extracted from the first selfie, from now on, to keep the discussion manageable.* 
 
 Now, if you start thinking about it, this seems to be a very complicated task since finding the best location among many possible ones in the second selfie, while keeping in mind the spatial relationship between the subject and background (second selfie) is not a trivial thing to do. The algorithm should be very robust to scale and rotational invariance. 
 
