@@ -21,26 +21,24 @@ Assuming we somehow managed to do the first part, still, we have another major c
 
 *One can think of many potential use cases of it, but I would like to state few which I can think off, the top of my head. We all can do these things mentioned below in Photoshop but that would require a lot of manual labor, and considerable inference time.*
 
-> - People can create and share their memories just like a collage for their **personal use.**
+- People can create and share their memories just like a collage for their **personal use.**
 
-> - **Anime industry** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
+- **Anime industry** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
 
 ## Problem Breakdown
 The exciting part about the project was that neither has this Image to Image translation problem been explored much by Deep Learning
-nor are there any publicly available datasets for Image Compositing. 
+nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts (as already described above in much detail). 
 
-As I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts as already described above in much detail. 
+- Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically detect the most salient region among many in the second selfie, where the subject would not look out of place.
 
-> **1)** Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically detect the most consistent region among many in the second image, where subject from the first image would not look out of place.
-
-> **2)** Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground and background to give it a photo-realistic touch.
+- Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground and background to give it a photo-realistic touch.
 
 Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using COCO segmented data, to be used as an input to the latter half. Creating a meaningful dataset while keeping the final aim of the project in mind
 was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
 
 > **1)** Picked any two random images from the whole dataset (original COCO dataset) in which the category people covered a significant portion of the image. 
 
-> **2)** Masked a random subject from the first image and applied Image processing techniques like histogram equalization, random perturbation in brightness/contrast, transferring the color of the second image to the masked subject of the first image and, few other techniques so to say. 
+> **2)** Masked a random subject from the first image and applied Image processing techniques like histogram equalization, random perturbation in brightness/contrast, transferring the color of the second image to the masked subject of the first image and, few other techniques so to say.
 
 *This way I had a composite in which the statistical features of one of the subjects was completely different compared to its
 background (this acts as a proxy for a extracted subject picked from the first selfie pasted into another).*
