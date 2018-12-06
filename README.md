@@ -87,9 +87,23 @@ In Image-to-image translation problems, we map a high resolution input grid to a
 
 > To preserve the low-level details, skip connections are used.  Specifically, skip connections are added between each layer i and layer n − i, where n is the total number of layers. Each skip connection simply concatenates all channels at layer i with those at layer n − i.
 
+```Architecture: 
+Encoder:  C(64, 1) - C(64, 1) - C(64, 2) - C(128, 2) - C(256, 2) - C(512, 2) - C(512, 2) - C(512, 2) - C(512, 2)
+Decoder:  CD(512, 2) - CD(512, 2) - CD(512, 2) - CD(256, 2) - CD(128, 2) - CD(64, 2) - CD(64, 2) - CD(64, 1) - CD(3, 1)
+```
+
 #### Discriminator:
 
-> A Wide-Resnet Block 
+The GAN discriminator relies on high-frequency structure term to force low-frequency correctness. In order to model high-frequencies, it is sufficient to restrict the attention to the structure in local image patches. Therefore, discriminator architecture was termed PatchGAN – that only penalizes structure at the scale of patches. This discriminator tries to classify if each N × N patch in an image
+is real or fake. Run this discriminator convolutionally across the image, and average all responses to provide the ultimate output of D.
+
+> Instead of using vanilla convolutional layers to increase the receptive field (or decrease the size of the image), use Res-Block or WideRes-Block with the instance normalization sliced between the layers. This way, we can get an increment in the capacity of the discriminator (which was necessary in this case) which ultimately resulted in better composites. 
+
+The original patch-gan was giving some weird artifacts due to the fact that, it was optimized for some different task (Authors pointed out that receptive field of 70 * 70 was giving best results, compared to smaller or larger recpetive field). It is always preferred to use Instance normalization compared to Batch Normalization in the case of GANs, but in my case both were giving nearly same results and bacth normalization was faster (batch size greater than 1, so GPU computations can be done much more efficiently).
+
+> Patch GANs discriminator effectively models the image as a Markov random field, assuming independence between pixels separated by more than a patch diameter.
+
+```Architecture: WRB64 - WRB128 - WRB256 - WRB256```
 
 
 ## Results
