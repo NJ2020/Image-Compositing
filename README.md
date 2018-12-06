@@ -53,7 +53,7 @@ COCO dataset has originally around 40,000 images in which category **people** co
 
 ### Training ConditionalGAN:
 
-
+Given the dataset and final aim in mind, I reduced the whole task to **Image to Image translation** problem (Motivated by this astounding paper [Pix2pix](https://arxiv.org/pdf/1611.07004.pdf)). In analogy to automatic language translation, automatic image-to-image translation refers to the task of translating one possible representation of an image into another, given sufficient training data. I deployed **Conditional Generative Adversarial networks** not only to learn the mapping from the input image to the output image but also to learn a loss function to train this mapping. This generic approach alleviated the problems that would traditionally require very different loss formulations (Image compositing has already been thoroughly investigated by Image Processing community, and there are numerous proposals to get some decent results by following some specific, well-defined approach. However, they aren't scalable at all for obvious reasons).
 
 
 
