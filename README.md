@@ -105,16 +105,17 @@ The original patch-gan was giving some weird artifacts due to the fact that, it 
 
 ```Architecture: WRB64 - WRB128 - WRB256 - WRB256```
 
+***
 
 ## Results
 
-![1](https://user-images.githubusercontent.com/41862477/49601383-b66b2880-f9ab-11e8-93fb-f1ec685103f6.JPG)
-![2](https://user-images.githubusercontent.com/41862477/49601384-b703bf00-f9ab-11e8-95dd-362c31ea561b.JPG)
-![3](https://user-images.githubusercontent.com/41862477/49601386-b703bf00-f9ab-11e8-91a1-5f75e862b431.JPG)
+![1](https://user-images.githubusercontent.com/41862477/49601576-34c7ca80-f9ac-11e8-9e6b-cc2ed825c77f.JPG)
+![2](https://user-images.githubusercontent.com/41862477/49601577-34c7ca80-f9ac-11e8-8258-3b08310fa29f.JPG)
+![3](https://user-images.githubusercontent.com/41862477/49601579-35606100-f9ac-11e8-812b-4a0b9237f1cd.JPG)
 
-![out_1](https://user-images.githubusercontent.com/41862477/49601387-b79c5580-f9ab-11e8-87a1-b1d2738f9f1b.JPG)
-![out_2](https://user-images.githubusercontent.com/41862477/49601388-b79c5580-f9ab-11e8-9ef1-54e70b88aa0a.JPG)
-![out_3](https://user-images.githubusercontent.com/41862477/49601389-b79c5580-f9ab-11e8-8a91-e462031f2d4e.JPG)
+![out_1](https://user-images.githubusercontent.com/41862477/49601580-35606100-f9ac-11e8-8671-ca7676c72581.JPG)
+![out_2](https://user-images.githubusercontent.com/41862477/49601581-35606100-f9ac-11e8-9949-283d47f06f3a.JPG)
+![out_3](https://user-images.githubusercontent.com/41862477/49601582-35f8f780-f9ac-11e8-910a-8d4b6eba121a.JPG)
 
 ***
 
