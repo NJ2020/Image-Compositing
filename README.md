@@ -69,15 +69,15 @@ The objective of a conditional GAN can be expressed as:
 
 > **LcGAN (G, D) = Ex,y (log D(x, y)) + Ex,z (log(1 − D(x, G(x, z)))** where G tries to minimize this objective against an adversarial D that tries to maximize it, i.e. 
 
-**G = arg min(G)max(D) LcGAN (G, D)**. It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance. **LL1(G) = Ex,y,z ( ||y − G(x, z)|| )**.
+> **G = arg min(G)max(D) LcGAN (G, D)**. It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance. **LL1(G) = Ex,y,z ( ||y − G(x, z)|| )**.
 
-*Without z, the net could still learn a mapping from x to y, but would produce deterministic outputs, and therefore fail to match any distribution other than a **delta function**. Instead, the authors of Pix2pix provided noise only in the form of **dropout**, applied on several layers of the generator at **both training and test time**.*
+Without z, the net could still learn a mapping from x to y, but would produce deterministic outputs, and therefore fail to match any distribution other than a **delta function**. Instead, the authors of Pix2pix provided noise only in the form of **dropout**, applied on several layers of the generator at **both training and test time**.
 
 The objective (Min-Max) that I mentioned above was used in the original paper when GAN was first proposed by **Ian Goodfellow** in 2014, but unfortunately, it didn't perform well due to vanishing gradients problems (I won't go into the details here; refer to my GAN tutorials for more details). Since then, there has been a lot of development, and many other researchers have proposed different kinds of loss functions (LS-GAN, WGAN, WGAN-GP) to overcome these issues. Authors of this paper used **Least-square** objective function while running their optimization process. 
 
 None of the loss functions are optimal in every scenario, it's always task dependent (maybe WGAN performs better than LS-GAN in one task, while the other way around, in some other task). Moreover, there was a recent paper by **Google** which also addressed this issue and showed that all loss functions give you nearly the same results, with the only condition that you need to do extensive hyper-parameter optimization. Training GANs is very tricky, and it will never work in the first attempt. You might even have to look into the capacity of your architecture. There was one recent theoretical paper on GANs by [Sanjeev Arora](https://arxiv.org/abs/1706.08224) in which he mentioned that the generator's capacity should be as large as twice the capacity of the discriminator. 
 
-> *From the above discussion, you can conclude that its very difficult to train the GANs. One spends a lot of time tweaking the hyper-parameters to make the model work properly.*
+> From the above discussion, you can conclude that its very difficult to train the GANs. One spends a lot of time tweaking the hyper-parameters to make the model work properly.
 
 
 
