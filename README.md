@@ -1,13 +1,11 @@
-# Image Compositing 
+# Image Compositing
 
-#### *Note: This work was done by me during the internship at Samsung Research Institute last summer. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones.*
-
-
+#### *Note: This work was done by me during the internship at Samsung Research Institute, last summer. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones.*
 
 ## Aim
-**In short, the aim was to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.**
+>**In short, the aim was to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.**
 
-> *You might be thinking, what does that even mean?*
+*You might be thinking, what does that even mean?*
 
 Let me try to make things simple and explain it to you in layman language with the help of an example. Suppose we have two selfies, so what we want to do is, extract any one individual (usually pointed out by the user by a click) from the first selfie and paste it automatically at the best possible location in the second selfie, so that the composite doesn't look weird. *I will be using the word subject to refer to the individual extracted from the first selfie, from now on to keep the discussion manageable.* Now, if you start thinking about it, this seems to be a very complicated task since finding the best among many of the possible salient regions in the second selfie, while keeping in mind the spatial relationship between the subject and background (second selfie) is not a trivial thing to do. The algorithm should be very robust to scale and rotational invariance. 
 
