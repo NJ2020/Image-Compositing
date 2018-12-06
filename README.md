@@ -49,8 +49,11 @@ nor are there any publicly available datasets for Image Compositing. So, as I st
 
 COCO dataset has originally around 40,000 images in which category **people** covered a significant portion of the image. I tried my best to ensure that, the edited images are neither arbitrary nor unrealistic in color and tone by carrying out the editing of the  appearance of the subject very carefully, but unfortunately there were still a few images that one would ideally not consider to keep in his/her dataset while training the final Deep Learning model (**Garbage In Garbage Out** is one of the most common phrases in Machine Learning community). It will also be difficult for one to go through every image and filter out the bad composite since it is a repulsive and time-consuming task.
 
-> So, for that I trained a discriminative deep Convolutional Neural Network which learned the perception of visual realism from a large amount of unlabelled data. The model was able to successfully distinguish between natural images and automatically generated image
-composites. It was able to predict the degree of perceived visual realism of a photo in terms of color, lighting and texture compatibility.
+> *For that, I trained a **discriminative** Deep CNN which learned the perception of visual realism in terms of **color, lighting and texture compatibility**, from a large amount of **unlabelled data**. It was able to make a proper distinction between the natural images and automatically generated image composites.* By using this model, I was able to discard very unnatural composites. Finally, we have a dataset in which the edited object still looks plausible but does not match the background context.
+
+### Training ConditionalGAN:
+
+
 
 
 
