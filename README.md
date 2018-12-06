@@ -73,7 +73,7 @@ The objective (Min-Max) that I mentioned above was used in the original paper wh
 
 None of the loss functions are optimal in every scenario, it's always task dependent (maybe WGAN performs better than LS-GAN in one task, while the other way around, in some other task). Moreover, there was a recent paper by **Google** which also addressed this issue and showed that all loss functions give you nearly the same results, with the only condition that you need to do extensive hyper-parameter optimization. Training GANs is very tricky, and it will never work in the first attempt. You might even have to look into the capacity of your architecture. There was one recent theoretical paper on GANs by [Sanjeev Arora](https://arxiv.org/abs/1706.08224) in which he mentioned that the generator's capacity should be as large as twice the capacity of the discriminator. 
 
-> ***From the above discussion, you can conclude that its very difficult to train the GANs. One spends a lot of time tweaking the hyper-parameters to make the model work properly.***
+> *From the above discussion, you can conclude that its very difficult to train the GANs. One spends a lot of time tweaking the hyper-parameters to make the model work properly.*
 
 
 
