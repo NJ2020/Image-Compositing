@@ -119,4 +119,4 @@ The original patch-gan was giving some weird artifacts due to the fact that, it 
 
 ***
 
-## Thanks for going through this post!
+#### Thanks for going through this post!
