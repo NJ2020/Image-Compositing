@@ -29,7 +29,7 @@ Assuming we somehow managed to do the first part, still, we have another major c
 The exciting part about the project was that neither has this **Image to Image translation** problem been explored much by Deep Learning
 nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts. 
 
-- Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position in the second selfie, where the subject would not look out of place.
+- Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position in the second selfie, where it would not look out of place.
 - Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground (subject) and background (second selfie) to give it a photo-realistic touch.
 
 > Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **COCO** data, which I can use as an input to the latter half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
@@ -37,9 +37,9 @@ nor are there any publicly available datasets for Image Compositing. So, as I st
 ### Dataset Creation
 
 - Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image. 
-- Masked a subject from the first image and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast, and color transfer* from the target object of same semantic (category **people** in both the cases) in the second selfie. For color transfer, I computed statistics of the luminance and color temperature, and used the histogram matching method.
+- Masked a subject from the first image and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast, and color transfer* from the target object of same semantic (category **people** in both the cases) in the second selfie. For color transfer, I computed statistics of the luminance and color temperature and used the histogram matching method.
 
-*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background (this composite acts as a substitute for an extracted subject from first selfie, pasted into another, at the best possible location).*
+*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background (this composite acts as a substitute for an extracted subject from the first selfie, and pasted into another, at the best possible location).*
 
 *Images from the Dataset:*
 
@@ -47,9 +47,9 @@ nor are there any publicly available datasets for Image Compositing. So, as I st
 ![2](https://user-images.githubusercontent.com/41862477/49573701-aa0fad00-f964-11e8-84a9-2ca1f3d8da40.JPG)
 ![3](https://user-images.githubusercontent.com/41862477/49573703-aaa84380-f964-11e8-8225-2d0c02ef89ac.JPG)
 
-COCO dataset has originally around 40,000 images in which category **people** covered a significant portion of the image. I tried my best to ensure that, the edited images are neither arbitrary nor unrealistic in color and tone by carrying out the editing of the  appearance of the subject very carefully, but unfortunately there were still a few images that one would ideally not consider to keep in his/her dataset while training the final Deep Learning model (**Garbage In Garbage Out** is one of the most common phrases in Machine Learning community). It will also be difficult for one to go through every image and filter out the bad composite since it is a repulsive and time-consuming task.
+COCO dataset has originally around 40,000 images in which category **people** covered a significant portion of the image. I tried my best to ensure that, the edited images are neither arbitrary, nor unrealistic in color and tone by carrying out the editing of the  appearance of the subject very carefully, but unfortunately, there were still a few images that one would ideally not consider to keep in his/her dataset while training the Deep Learning model (**Garbage In Garbage Out** is one of the most common phrases in Machine Learning community). It will also be difficult for one to go through every image and filter out the bad composite since it is a repulsive and time-consuming task.
 
-> *For that, I trained a **discriminative** Deep CNN which learned the perception of visual realism in terms of **color, lighting and texture compatibility**, from a large amount of **unlabelled data**. It was able to make a proper distinction between the natural images and automatically generated image composites.* By using this model, I was able to discard very unnatural composites. Finally, we have a dataset in which the edited object still looks plausible but does not match the background context.
+> *So, to overcome that issue, I trained a **discriminative** Deep CNN which learned the perception of visual realism in terms of **color, lighting and texture compatibility**, from a large amount of **unlabelled data**. It was able to make a proper distinction between the natural images and automatically generated image composites.* By using this model, I was able to discard very unnatural composites. Finally, we have a dataset in which the edited object still looks plausible but does not match the background context.
 
 ### Training ConditionalGAN:
 
@@ -61,7 +61,7 @@ Given the dataset and final aim in mind, I reduced the whole task to **Image to 
 
 From now on, I will only be giving you the overview of **Pix2pix** paper and the changes (mostly in the architecture and loss function) that I made to make the model work properly, remaining details are nearly the same. Like other GANs, Conditional GANs also have one discriminator (or critic depending on the loss function you are using) and one generator, and it tries to learn a conditional generative model which makes it suitable for image-to-image translation tasks, where we condition on an input image and generate a corresponding output image. 
 
-> If mathematically expressed, CGANs learn a mapping from observed image X and random noise vector z, to y, G : {x, z} → y. The generator G is trained to produce outputs that cannot be distinguished from **real** images by an adversarially trained discriminator, D, which is trained to do as well as possible at identifying the generator’s **fakes**.
+> If mathematically expressed, CGANs learn a mapping from observed image X and random noise vector z, to y, G : {x, z} → y. The generator G is trained to produce outputs that cannot be distinguished from **real** images by an adversarially trained discriminator, D, which is again optimized to do as well as possible at identifying the generator’s **fakes**.
 
 ### Loss Function
 
@@ -73,11 +73,11 @@ The objective of a conditional GAN can be expressed as:
 
 Without z, the net could still learn a mapping from x to y, but would produce deterministic outputs, and therefore fail to match any distribution other than a **delta function**. Instead, the authors of Pix2pix provided noise only in the form of **dropout**, applied on several layers of the generator at **both training and test time**.
 
-The objective (Min-Max) that I mentioned above was used in the original paper when GAN was first proposed by **Ian Goodfellow** in 2014, but unfortunately, it didn't perform well due to vanishing gradients problems (I won't go into the details here; refer to my GAN tutorials for more details). Since then, there has been a lot of development, and many other researchers have proposed different kinds of loss functions (LS-GAN, WGAN, WGAN-GP) to overcome these issues. Authors of this paper used **Least-square** objective function while running their optimization process. 
+The objective (Min-Max) that I mentioned above was used in the original paper when GAN was first proposed by **Ian Goodfellow** in 2014, but unfortunately, it didn't perform well due to vanishing gradients problems (I won't go into much more depth here; refer to my GAN tutorials for more details). Since then, there has been a lot of development, and many researchers have proposed different kinds of loss functions (LS-GAN, WGAN, WGAN-GP) to overcome these issues. Authors of this paper used **Least-square** objective function while running their optimization process. 
 
-None of the loss functions are optimal in every scenario, it's always task dependent (maybe WGAN performs better than LS-GAN in one task, while the other way around, in some other task). Moreover, there was a recent paper by **Google** which also addressed this issue and showed that all loss functions give you nearly the same results, with the only condition that you need to do extensive hyper-parameter optimization. Training GANs is very tricky, and it will never work in the first attempt. You might even have to look into the capacity of your architecture. There was one recent theoretical paper on GANs by [Sanjeev Arora](https://arxiv.org/abs/1706.08224) in which he mentioned that the generator's capacity should be as large as twice the capacity of the discriminator. 
+None of the loss functions are optimal in every scenario, it's always task dependent (maybe WGAN performs better than LS-GAN in one task, while the other way around, in some other). Moreover, there was a recent paper by **Google** which also addressed this issue and showed that all loss functions give you nearly the same results, with the only condition that you need to do extensive hyper-parameter optimization. Training GANs is very tricky, and it will never work in the first attempt. You might even have to look into the capacity of your architecture. There was this, one recent theoretical paper on GANs by [Sanjeev Arora](https://arxiv.org/abs/1706.08224) in which he mentioned that the generator's capacity should be as large as twice the capacity of the discriminator. 
 
-> From the above discussion, you can conclude that its very difficult to train the GANs. One spends a lot of time tweaking the hyper-parameters to make the model work properly.
+> From the above discussion, we can conclude that one spends a lot of time tweaking the hyper-parameters to make the GANs work properly.
 
 
 
