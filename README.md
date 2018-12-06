@@ -34,10 +34,20 @@ nor are there any publicly available datasets for Image Compositing. So, as I st
 
 > Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **COCO** data, to be used as an input to the latter half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
 
+### Dataset Creation
+
 - Picked any two random images from the whole dataset (original COCO dataset) in which the category people covered a significant portion of the image. 
 - Masked a random subject from the first image and applied Image processing techniques like *random perturbation in brightness/contrast/color-temperature, histogram equalization and color transfer* from the second selfie to the masked subject and, few other techniques, so to say.
 
 *This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background (this composite acts as a substitute for an extracted subject pasted into another selfie at one of the most likely locations).*
+
+> Images from the Dataset:
+
+![1](https://user-images.githubusercontent.com/41862477/49573700-aa0fad00-f964-11e8-8466-7bd4d7780fa5.JPG)
+![2](https://user-images.githubusercontent.com/41862477/49573701-aa0fad00-f964-11e8-84a9-2ca1f3d8da40.JPG)
+![3](https://user-images.githubusercontent.com/41862477/49573703-aaa84380-f964-11e8-8225-2d0c02ef89ac.JPG)
+
+
 
 
 
