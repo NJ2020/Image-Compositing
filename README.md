@@ -19,11 +19,11 @@ Assuming we somehow managed to do the first part, still, we have another major c
 
 ## Motivation
 
-*One can think of many potential use cases of it, but I would like to state few, which I can think off the top of the head. We can do all the things mentioned below in Photoshop, but that would require a lot of manual labor and large computations.*
+*One can think of many potential use cases of it, but I would like to state few which I can think off, the top of my head. We all can do these things mentioned below in Photoshop but that would require a lot of manual labor, and considerable inference time.*
 
-> **1)** People can create and share their memories just like a collage for their **personal use.**
+> - People can create and share their memories just like a collage for their **personal use.**
 
-> **2) Anime industry** can use it to create CGI scenes by skipping the intermediate step of 3D rendering of an object.    
+> - **Anime industry** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
 
 ## Problem Breakdown
 The exciting part about the project was that neither has this Image to Image translation problem been explored much by Deep Learning
