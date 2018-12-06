@@ -21,25 +21,24 @@ Assuming we somehow found the solution of the above problem, still, we have anot
 
 *One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We all can do things mentioned below, in Photoshop, but that would require a lot of manual labor and a significant inference time.*
 
-- People can create and share their memories just like a collage for their **personal use.**
+- People can create and share their memories just like a collage, for their **personal use.**
 
 - **Anime industry** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
 
 ## Problem Breakdown
-The exciting part about the project was that neither has this **Image to Image translation** problem been explored much by Deep Learning
-nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts. 
+The exciting part about the project was that neither has this **Image to Image translation** problem been explored much by Deep Learning nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts. 
 
 - Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position in the second selfie, where it would not look out of place.
 - Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground (subject) and background (second selfie) to give it a photo-realistic touch.
 
-> Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **COCO** data, which I can use as an input to the latter half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
+> Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **COCO** data, which was later used as an input for the second half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
 
 ### Dataset Creation
 
 - Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image. 
-- Masked a subject from the first image and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast, and color transfer* from the target object of same semantic (category **people** in both the cases) in the second selfie. For color transfer, I computed statistics of the luminance and color temperature and used the histogram matching method.
+- Masked a subject from the first selfie and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast, and color transfer* from the target object (of same semantic) in the second selfie. For color transfer, I computed statistics of the luminance and color temperature and used the histogram matching method.
 
-*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background (this composite acts as a substitute for an extracted subject from the first selfie, and pasted into another, at the best possible location).*
+*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background (this acts as a substitute for an object extracted from first and pasted into another at the best possible location).*
 
 *Images from the Dataset:*
 
