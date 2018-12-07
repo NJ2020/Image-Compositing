@@ -45,7 +45,7 @@ The exciting part about the project was that neither has this **Image to Image t
 - Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image. 
 - Masked a subject from the first selfie and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast, and color transfer* from the target object (of same semantic) in the second selfie. For color transfer, I computed statistics of the luminance and color temperature and used the histogram matching method.
 
-*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background (this acts as a substitute for an object extracted from first and pasted into another at the best possible location).*
+*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background which can now act as a substitute for an object extracted from first and pasted into another at the best possible location.*
 
 *Images from the Dataset:*
 
