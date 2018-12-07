@@ -2,6 +2,8 @@
 
 #### *Note: This work was done by me during the internship at Samsung Research Institute, last summer. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones.*
 
+___
+
 ## Aim
 >**In short, the aim was to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.**
 
@@ -17,6 +19,8 @@ Assuming we somehow found the solution of the above problem, still, we have anot
 
 >***So, this was the final aim and hope that I was able to explain it clearly.*** 
 
+____
+
 ## Motivation
 
 *One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We all can do things mentioned below, in Photoshop, but that would require a lot of manual labor and a significant inference time.*
@@ -25,7 +29,10 @@ Assuming we somehow found the solution of the above problem, still, we have anot
 
 - **Anime industry** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
 
+___
+
 ## Problem Breakdown
+
 The exciting part about the project was that neither has this **Image to Image translation** problem been explored much by Deep Learning nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts. 
 
 - Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position in the second selfie, where it would not look out of place.
@@ -53,6 +60,8 @@ COCO dataset has originally around 40,000 images in which category **people** co
 ### Training ConditionalGAN:
 
 Given the dataset and final aim in mind, I reduced the remaining task to **Image to Image translation** problem (Motivated by this astounding paper [Pix2pix](https://arxiv.org/pdf/1611.07004.pdf)). In analogy to automatic language translation, automatic image-to-image translation refers to the task of translating one possible representation of an image into another, given sufficient training data. I deployed **Conditional Generative Adversarial networks** not only to learn the mapping from the input image to the output image but also to learn a loss function to train this mapping. This generic approach alleviated the issues that would traditionally require very different loss formulations (Image compositing has already been thoroughly investigated by Image Processing community, and there are numerous proposals to get some decent results by following some specific, hand designed approach. However, they aren't scalable at all for obvious reasons).
+
+___
 
 ## Pix2pix
 
@@ -100,7 +109,7 @@ It is always preferred to use Instance normalization compared to Batch Normaliza
 
 ```Architecture: WRB64 - WRB128 - WRB256 - WRB256```
 
-***
+___
 
 ## Results
 
@@ -112,6 +121,6 @@ It is always preferred to use Instance normalization compared to Batch Normaliza
 ![out_2](https://user-images.githubusercontent.com/41862477/49601770-c0415b80-f9ac-11e8-8721-55d6ed024eb1.JPG)
 ![out_3](https://user-images.githubusercontent.com/41862477/49601771-c0d9f200-f9ac-11e8-9f16-40cb608648b4.JPG)
 
-***
+___
 
 ***Thanks for going through this post! Any feedbacks are duly appreciated.***
