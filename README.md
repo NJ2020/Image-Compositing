@@ -114,4 +114,4 @@ It is always preferred to use Instance normalization compared to Batch Normaliza
 
 ***
 
-### ***Thanks for going through this post! Any feedbacks are duly appreciated***
+***Thanks for going through this post! Any feedbacks are duly appreciated.***
