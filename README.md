@@ -17,7 +17,7 @@ Now, if you do a proper thought experiment, this seems to be a very complicated 
 
 Assuming we somehow found the solution of the above problem, still, we have another major difficulty in our way - The lighting condition of the two selfies can be completely different (one can be in broad light, another one in backlight or one can be in bright daylight and another one in low dim nightlight). So, we also need to match the lighting conditions of the background (second selfie) and foreground (subject) in a way that the overall composite looks natural. It should be clear by looking at the composite that both the individuals were present while clicking the selfie.
 
->***So, this was the final aim and hope that I was able to explain it clearly.*** 
+>***So, this was our final aim and hope that I was able to explain it clearly.*** 
 
 ____
 
@@ -26,7 +26,6 @@ ____
 *One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We all can do things mentioned below, in Photoshop, but that would require a lot of manual labor and a significant inference time.*
 
 - People can create and share their memories just like a collage, for their **personal use.**
-
 - **Anime industry** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
 
 ___
@@ -42,20 +41,20 @@ The exciting part about the project was that neither has this **Image to Image t
 
 ### Dataset Creation
 
-- Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image. 
+- Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image (should be uncrowded too). 
 - Masked a subject from the first selfie and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast, and color transfer* from the target object (of same semantic) in the second selfie. For color transfer, I computed statistics of the luminance and color temperature and used the histogram matching method.
 
-*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background which can now act as a substitute for an object extracted from first and pasted into another at the best possible location.*
+*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background which can now act as a substitute for an object extracted from first selfie and pasted into another at the best possible location.*
 
-*Images from the Dataset:*
+*Few images from the Dataset:*
 
 ![1](https://user-images.githubusercontent.com/41862477/49573700-aa0fad00-f964-11e8-8466-7bd4d7780fa5.JPG)
 ![2](https://user-images.githubusercontent.com/41862477/49573701-aa0fad00-f964-11e8-84a9-2ca1f3d8da40.JPG)
 ![3](https://user-images.githubusercontent.com/41862477/49573703-aaa84380-f964-11e8-8225-2d0c02ef89ac.JPG)
 
-COCO dataset has originally around 40,000 images in which category **people** cover a significant portion of the image. I tried my best to ensure that, the composites are neither arbitrary nor unrealistic in color and tone by carrying out the editing of the appearance of the subject very carefully. Sadly, there were still a few images that one would ideally want to discard from his/her dataset while training the Deep Learning model (**Garbage In Garbage Out** is one of the most common phrases in Machine Learning). It will also be difficult for one to go through every image and filter out the bad composite, as it is a tedious and repulsive task to do.
+COCO dataset has originally around 40,000 images in which category **people** covered a significant portion of the image. I tried my best to ensure that, the composites are neither arbitrary nor unrealistic in color and tone by carrying out the editing of the appearance of the subject very carefully. Sadly, there were still a few images that one would ideally want to discard from his/her dataset while training the Deep Learning model (**Garbage In Garbage Out** is one of the most common phrases in Machine Learning). But, It will be difficult for one to go through every image and filter out the bad composite, as it is a tedious and repulsive task to do.
 
-> *So, to overcome those issues, I trained a **discriminative** Deep CNN which learned the perception of visual realism in terms of **color, lighting and texture compatibility**, from a large amount of **unlabelled data**. It was able to make a proper distinction between the natural images and automatically generated image composites.* By using this model, I was able to discard very unnatural looking composites from the raw custom dataset. Now, finally, we have a collection of composites in which the edited object still looks plausible, but does not match the background context.
+> *So, to overcome those issues, I trained a **discriminative** Deep CNN which learned the perception of visual realism in terms of **color, lighting and texture compatibility**, from a large amount of **unlabelled data**. It was able to make a proper distinction between the natural images and automatically generated image composites.* By using this model, I was able to discard very unnatural looking composites from the raw custom dataset. *Now, finally, we have a collection of composites in which the edited object still looks plausible, but does not match the background context.*
 
 ### Training ConditionalGAN:
 
@@ -65,25 +64,29 @@ ___
 
 ## Pix2pix
 
-> ***If you are unfamiliar with GANs, I would request you to look into my tutorials (GAN_Zoo) and then only proceed forward.***
+> ***If you are unfamiliar with GANs, I would request you to look into some of the GAN tutorials and then proceed forward.***
 
 From now on, I will only be giving you the overview of **Pix2pix** paper and the changes (mostly in the architecture and loss function) that I made to make the model work properly; remaining details are nearly the same. Like other GANs, Conditional GANs also have one discriminator (or critic depending on the loss function you are using) and one generator, and it tries to learn a conditional generative model which makes it suitable for image-to-image translation tasks, where we condition on an input image and generate a corresponding output image. 
 
-> If mathematically expressed, CGANs learn a mapping from observed image X and random noise vector z, to y, G : {x, z} → y. The generator G is trained to produce outputs that cannot be distinguished from **real** images by an adversarially trained discriminator, D, which in turn is itself optimized to do as well as possible at identifying the generator’s **fakes**.
+> If mathematically expressed, CGANs learn a mapping from observed image X and random noise vector z, to y, *G : {x, z} → y*. The generator G is trained to produce outputs that cannot be distinguished from **real** images by an adversarially trained discriminator, D, which in turn is itself optimized to do as well as possible at identifying the generator’s **fakes**.
 
 ### Loss Function
 
 The objective of a conditional GAN can be expressed as:
 
-> **```Lc GAN (G, D) = Ex,y (log D(x, y)) + Ex,z (log(1 − D(x, G(x, z)))```** where G tries to minimize this objective against an adversarial D that tries to maximize it, i.e. **```G = arg min(G)max(D) Lc GAN (G, D)```**. It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance. **```L(G) = Ex,y,z ( ||y − G(x, z)|| )```**.
+> **```Lc GAN (G, D) = Ex,y (log D(x, y)) + Ex,z (log(1 − D(x, G(x, z)))```** where G tries to minimize this objective against an adversarial D that tries to maximize it, i.e. **```G∗ = arg min(G)max(D) Lc GAN (G, D)```**. It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance to make sure that, the ground truth and the output are close to each other in L1 sense **```L(G) = Ex,y,z ( ||y − G(x, z)|| )```**.
 
 Without z, the net could still learn a mapping from x to y, but would produce deterministic outputs, and therefore fail to match any distribution other than a **delta function**. Instead, the authors of Pix2pix provided noise only in the form of **dropout**, applied on several layers of the generator at **both training and test time**.
 
-The Min-Max objective mentioned above was used in the original paper, when GAN was first proposed by **Ian Goodfellow** in 2014, but unfortunately, it doesn't perform well due to vanishing gradients problems. Since then, there has been a lot of development, and many researchers have proposed different kinds of loss formulation (LS-GAN, WGAN, WGAN-GP) to overcome these issues. Authors of this paper used **Least-square** objective function while running their optimization process.
+The Min-Max objective mentioned above was used in the original paper when GAN was first proposed by **Ian Goodfellow** in 2014, but unfortunately, it doesn't perform well due to vanishing gradients problems. Since then, there has been a lot of development, and many researchers have proposed different kinds of loss formulation (LS-GAN, WGAN, WGAN-GP) to overcome these issues. 
 
-None of the loss functions are optimal in every scenario, it's always task dependent (maybe WGAN performs better than LS-GAN in one task, while the other way around, in some other). Moreover, there was a recent paper by **Google** which also addressed this issue and showed that all loss functions give you nearly the same results, with the only condition that you need to do extensive hyper-parameter optimization. Training GANs is very tricky, and it will never work in the first attempt. You might even have to look into the capacity of your architecture. There was this, one recent theoretical paper on GANs by [Sanjeev Arora](https://arxiv.org/abs/1706.08224) in which he mentioned that the generator's capacity should be as large as twice the capacity of the discriminator. 
+I played around with two such loss functions as mentioned below: 
+- **Least-Square GAN loss**, and
+- **Wasserstein GAN loss** (both with and without Gradient penalty)
 
-> Now, we can conclude that one needs to spend a lot of time, tweaking the hyper-parameters of the GANs to make it work properly. For this task, Wasserstein Gan was giving the best results, and the discriminator was trained 5 more times compared to the generator.
+> Minimizing Least Square GAN loss in the optimization procedure yielded me better results, in a far lower number of training iterations compared to Wasserstein GAN loss. WGAN was very slow to train (because of the multiple updates needed to be done for the critic for each update of the generator) and there were also some weird artifacts in the output composite.  
+
+However, there was a recent paper by **Google** which addressed this issue and stated that "None of the loss functions is optimal in every scenario", it's always task dependent (maybe WGAN can perform better than LS-GAN in one task, while the other way around has also equally likely chance to happen in some different scenario). So, before switching to a different loss function, you should instead focus on extensive hyper-parameter optimization. Training GANs is very tricky, and it will never work in the first attempt, you might even want to look into the capacity of your architecture. There was this, one recent theoretical paper on GANs by [Sanjeev Arora](https://arxiv.org/abs/1706.08224) in which he mentioned that the generator's minimum capacity should be as large as the capacity of the discriminator squared. 
 
 ### Network Architecture
 
@@ -91,7 +94,7 @@ None of the loss functions are optimal in every scenario, it's always task depen
 
 In Image-to-image translation problems, we map a high resolution input grid to a high resolution output grid. Both are renderings of the same underlying structure with the only difference in the surface appearance. The authors designed the generator architecture around these considerations. They used an encoder-decoder network in which the input is passed through a series of layers that progressively downsample, until a bottleneck layer, at which point the process is reversed. 
 
-> To preserve the low-level details, skip connections are used. Specifically, skip connections are added between each layer i and layer n − i, where n is the total number of layers. Each skip connection simply concatenates all channels at layer i with those at layer n − i.
+> To preserve the low-level details, skip connections were used. Specifically, skip connections are added between each layer i and layer n − i, where n is the total number of layers. Each skip connection simply concatenates all channels at layer i with those at layer n − i.
 
 ```Architecture: 
 Encoder:  E(64, 1) - E(64, 1) - E(64, 2) - E(128, 2) - E(256, 2) - E(512, 2) - E(512, 2) - E(512, 2) - E(512, 2)
@@ -102,12 +105,11 @@ Decoder:  D(512, 2) - D(512, 2) - D(512, 2) - D(256, 2) - D(128, 2) - D(64, 2) -
 
 The GAN discriminator models high-frequency structure term, relying on an L1 term to force low-frequency correctness. In order to model high-frequencies, it is sufficient to restrict the attention to the structure in local image patches. Therefore, discriminator architecture was termed PatchGAN – that only penalizes structure at the scale of patches. This discriminator tries to classify if each N × N patch in an image is real or fake. We run this discriminator convolutionally across the image, and average all responses to provide the ultimate output of D.
 
-> Instead of using vanilla convolutional layers to increase the receptive field (or decrease the size of the image), I used WideRes-Block with the instance normalization sliced between the layers. This way, we can get an increment in the capacity of the discriminator (necessary in this case) which ultimately resulted in better composites. Patch GANs discriminator effectively models the image as a Markov random field, assuming independence between pixels separated by more than a patch diameter.
+> Instead of using vanilla convolutional layers to increase the receptive field (or decrease the size of the image), I tried using **WideResNet-Block** in my experiments with the instance normalization sliced between the conv layers. This worked better than from what suggested in the original paper; maybe we actually need a larger number of trainable parameters for the discriminator in this case. The receptive field was also, that of the full image as opposed to 70 * 70 (used originally).
 
-The original Patch-gan was giving some weird artifacts due to the fact that, it was optimized for some different task (Authors pointed out that receptive field of 70 * 70 was giving best results, compared to any smaller or larger receptive field). 
-It is always preferred to use Instance normalization compared to Batch Normalization in the case of GANs, but in this case, both were giving nearly same results.
+The original Patch-gan was giving some weird artifacts due to the fact that, it was optimized for some different task (Authors pointed out that receptive field of 70 * 70 was giving best results, compared to any smaller or larger receptive field). Patch GANs discriminator effectively models the image as a Markov random field, assuming independence between pixels separated by more than a patch diameter.
 
-```Architecture: WRB64 - WRB128 - WRB256 - WRB256```
+```Architecture: WRB64 - WRB128 - WRB256 - WRB512```
 
 ___
 
