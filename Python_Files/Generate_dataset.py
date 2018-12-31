@@ -1,8 +1,4 @@
 
-# coding: utf-8
-
-# In[ ]:
-
 
 import numpy as np; np.random.seed(42); import skimage; import skimage.io; import skimage.io as io;
 import matplotlib.pyplot as plt; from PIL import Image, ImageEnhance; from skimage import img_as_ubyte;
@@ -10,10 +6,6 @@ import scipy.optimize; import cv2; import os; from pycocotools.coco import COCO;
 import warnings; warnings.filterwarnings("ignore");
 
 get_ipython().run_line_magic('matplotlib', 'inline')
-
-
-# In[ ]:
-
 
 #   Kelvin table is taken from link: http://www.andi-siess.de/portfolio/rgb-to-color-temperature
 
@@ -45,9 +37,6 @@ def change_temp_img(image, temp):
     mod_img = np.uint8(image.convert('RGB', matrix))
     
     return mod_img
-
-
-# In[ ]:
 
 
 def get_random_val(a, b, c, d):
@@ -103,9 +92,6 @@ def apply_transformation_1(img, mask, img_backgnd):
     return img
 
 
-# In[ ]:
-
-
 def pre_transfer_processing(image):
 
     """
@@ -139,9 +125,6 @@ def pre_transfer_processing(image):
     return image_lab
 
 
-# In[ ]:
-
-
 def ravel_xy_dim(image): return image.reshape(image.shape[0] * image.shape[1], 3);
 
 def get_linear_transformation(sigma_img, sigma_smp):
@@ -170,7 +153,8 @@ def get_linear_transformation(sigma_img, sigma_smp):
 
 #   T = [(Σ_img)**−1/2] * [[(Σ_img)**1/2] * Σ_smp * [(Σ_img)**1/2]]**0.5 * [(Σ_img)**−1/2]
 
-    linear_transformation_fn = (np.matrix(vec_i) * np.matrix(da_inv)) * (np.matrix(vec_c) * np.matrix(dc) *                                (np.matrix(vec_c).T)) * (np.matrix(da_inv) * (np.matrix(vec_i).T))
+    linear_transformation_fn = (np.matrix(vec_i) * np.matrix(da_inv)) * (np.matrix(vec_c) * np.matrix(dc) *  \
+                               (np.matrix(vec_c).T)) * (np.matrix(da_inv) * (np.matrix(vec_i).T))
     
     return linear_transformation_fn
     
@@ -197,9 +181,6 @@ def color_transfer_processing(image_original, image_sample):
     xr = (orig_reshaped - mu_i).dot(t) + mu_s
 
     return np.array(xr).reshape(image_original.shape).copy()
-
-
-# In[ ]:
 
 
 def get_lum_transfer_function(lum_image, param):
@@ -272,9 +253,6 @@ def luminance_transfer_processing(image_original, image_sample, image_result):
     return image_result
 
 
-# In[ ]:
-
-
 def apply_transformation_2(img_1, mask_1, img_1_backgnd, img_2, mask_2, img_2_backgnd):
     
     """
@@ -298,9 +276,6 @@ def apply_transformation_2(img_1, mask_1, img_1_backgnd, img_2, mask_2, img_2_ba
     final_image = final_image*np.expand_dims(mask_1, axis = 2) + img_1_backgnd;
     
     return final_image
-
-
-# In[ ]:
 
 
 relevant_cat = ['person']; relevant_cat_img_count = [0]*len(relevant_cat);
@@ -345,9 +320,6 @@ def GetImg_Foregnd_Backgnd(image, anns):
     return img_foregnd, img_backgnd, mask, ind
 
 
-# In[ ]:
-
-
 def get_fakeimg():
     
     """
@@ -387,9 +359,6 @@ def get_fakeimg():
     return
 
 
-# In[ ]:
-
-
 dataDir = './'; dataType = 'train2014'; annFile = '%s/annotations/instances_%s.json'%(dataDir, dataType)
 
 coco = COCO(annFile); cats = coco.loadCats(coco.getCatIds())
@@ -401,8 +370,4 @@ print("\n"); supercategories = set([cat['supercategory'] for cat in cats])
 print ('COCO supercategories:\n', ' '.join(supercategories))
 
 
-# In[ ]:
-
-
 get_fakeimg()
-
