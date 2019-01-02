@@ -1,6 +1,6 @@
 # Image Compositing
 
-#### *Note: This project was done by me during the summer internship last summer, at Samsung Research Institute. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones.*
+#### <p align = "justify"> <b> <i> Note: This project was done by me during the summer internship last summer, at Samsung Research Institute. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones. </b> </i> </p>
 
 ___
 
@@ -9,7 +9,7 @@ ___
 
 *You might be thinking, what does that even mean?*
 
-*Let me try to make things simpler and explain it to you in layman language. Suppose we have two selfies, so what we want to do is, extract any one subject (usually pointed out by the user through a click) from the first selfie and paste it **automatically** at the best possible location in the second selfie (considering factors like aspect and zoom ratio, etc. ) without making the final composite look unnatural.*
+<p align = "justify"> <i> Let me try to make things simpler and explain it to you in layman language. Suppose we have two selfies, so what we want to do is, extract any one subject (usually pointed out by the user through a click) from the first selfie and paste it <b> automatically </b> at the best possible location in the second selfie (considering factors like aspect and zoom ratio, etc. ) without making the final composite look unnatural.</i> </p>
 
 Now, if you do a proper thought experiment, this seems to be a very complicated task since finding the best location in the second selfie among the many possible ones, while also keeping in mind the *spatial relationship between the subject and background (second selfie itself)* is not a trivial thing to do. The algorithm should be very robust to ***scale and rotational invariance***. Assuming we somehow found the solution to the above problem, still, we have another major difficulty in our way. The *lighting condition of the two selfies can be completely different (one can be in broad light, another one in backlight or one can be in bright daylight and another one in low dim nightlight).* So, we also need to match the **lighting conditions** of the background (second selfie) and foreground (subject) in a way that the overall composite looks natural.
 
