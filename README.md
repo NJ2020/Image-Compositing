@@ -49,8 +49,15 @@ Now, let's do a much more detailed analysis of the second method used for creati
 - Stretch the luminance (L channel) to cover the full dynamic range after clipping both the minimum and the maximum 0.5 percent pixels of luminance levels. 
 - Apply the different transfer functions to the luminance and chrominance components as described below.
 
-##### Chrominance:
-- Color transfer method used here maps the statistics of the chrominance channels of the two images. They modeled the chrominance distribution of an image using a ***multivariate Gaussian***, and found a transfer function that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplar S to the Gaussian statistics N (µI , ΣI ) of the input image I as: ``` C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img ```, where T is a linear transformation that maps chrominance between the images and C_input(x) is the chrominance at pixel x of the input image. This solution was unstable for low input covariance values, leading to color artifacts when the input has low color variation. To avoid this, they regularized this solution by clipping diagonal elements of Σ_original_img as ``` Σ_original_img = max(Σ_original_img , λrI)```
+#### Chrominance:
+Color transfer method used here maps the statistics of the chrominance channels of the two images. The chrominance distribution of an image is modeled using a ***multivariate Gaussian***, and a transfer function is designed that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplar S to the Gaussian statistics N (µI , ΣI ) of the input image I as: 
+``` 
+C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img 
+```
+, where T is a linear transformation that maps chrominance between the images and, C_input(x) is the chrominance at pixel x of the input image. The solution is unstable for low input covariance values, leading to color artifacts when the input has low color variation. To avoid this, regularize the solution by clipping diagonal elements of Σ_original_img as 
+``` 
+Σ_original_img = max(Σ_original_img , λrI)
+```
 
 ##### Luminance:
 - They matched contrast and tone using histogram matching between the luminance channels of the input and style exemplar images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. Instead, they designed a new parametric model of luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: 
