@@ -38,42 +38,42 @@ ___
 - <p align = "justify">  Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image (should be uncrowded too). </p>
 - <p align = "justify"> Masked a subject from the first image and edited its appearance using Image processing techniques like  <i> random perturbation in brightness/contrast/saturation (method_1), and color transfer (method_2) </i> from the target object (with same semantic) of the second image. </p> 
 
-<p align = "justify"> <i> This way the output will be a composite in which the statistical features of one of the subjects will be completely different compared to that of its background and, can act as a perfect substitute for an object extracted from the first selfie and pasted into another at the best possible location. </i> </p>
+<p align = "justify"> <i> This way the output was a composite in which the statistical features of one of the subjects will be completely different compared to that of its background and, can act as a perfect substitute for an object extracted from the first selfie and pasted into another at the best possible location. </i> </p>
 
-Now, let's do a much more detailed analysis of the second method used to create the custom dataset. Method used was, **Style transfer** proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper to produce compelling, and artifact-free stylized output. The whole process can be broken down into the following three steps: 
+<p align = "justify"> Now, let's do a much more detailed analysis of the second method used to create the custom dataset. Method used was,  <b> Style transfer </b> proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper to produce compelling, and artifact-free stylized output. The whole process can be broken down into the following three steps: </p>
 
 #### Pre-processing:
 
 *To effectively stylize images with global transforms,*
-- Compress the dynamic ranges of the two images using a γ (= 2.2) mapping and convert the images into the LAB colorspace (because it decorrelates the different channels well). 
-- Stretch the luminance (L channel) to cover the full dynamic range after clipping both the minimum and the maximum 0.5 percent pixels of luminance levels. 
-- Apply the different transfer functions to the luminance and chrominance components as described below.
+- <p align = "justify"> Compress the dynamic ranges of the two images using a γ (= 2.2) mapping and convert the images into the LAB colorspace (because it decorrelates the different channels well). </p>
+- <p align = "justify"> Stretch the luminance (L channel) to cover the full dynamic range after clipping both the minimum and the maximum 0.5 percent pixels of luminance levels. </p> 
+- <p align = "justify"> Apply the different transfer functions to the luminance and chrominance components as described below.</p>
 
 #### Chrominance:
-Color transfer method used here maps the statistics of the chrominance channels of the two images. The chrominance distribution of an image is modeled using a ***multivariate Gaussian***, and a transfer function is designed that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplary S to the Gaussian statistics N (µI , ΣI ) of the input image I as: 
+<p align = "justify"> Color transfer method used here maps the statistics of the chrominance channels of the two images. The chrominance distribution of an image is modeled using a <i> <b> multivariate Gaussian </i> </b>, and a transfer function is designed that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplary S to the Gaussian statistics N (µI , ΣI ) of the input image I as: </p> 
 ``` 
 C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img 
 ```
-, where T is a linear transformation that maps chrominance between the images and, C_input(x) is the chrominance at pixel x of the input image. The solution is unstable for low input covariance values, leading to color artifacts when the input has low color variation. To avoid this, regularize the solution by clipping diagonal elements of Σ_original_img as 
+<p align = "justify">, where T is a linear transformation that maps chrominance between the images and, C_input(x) is the chrominance at pixel x of the input image. The solution is unstable for low input covariance values, leading to color artifacts when the input has low color variation. To avoid this, regularize the solution by clipping diagonal elements of Σ_original_img as </p>
 ``` 
 Σ_original_img = max(Σ_original_img , λrI)
 ```
 
 #### Luminance:
-Contrast and Tone were handled using Histogram matching between the luminance channels of the input and style exemplary images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. So, 
-- A new parametric model is designed for the luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: 
+<p align = "justify"> Contrast and Tone were handled using Histogram matching between the luminance channels of the input and style exemplary images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. So, </p>
+- <p align = "justify"> A new parametric model is designed for the luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: </p> 
 
 <p align="center"> 
 <img src="https://user-images.githubusercontent.com/41862477/50593661-31e2cb80-0ebf-11e9-8128-b7d123ad2cba.jpg">
 </p>
 
-- Then, a luminance feature (L) that represents the luminance histogram with uniformly sampled percentiles of the luminance cumulative distribution function (in this case, 32 samples) is extracted and used to estimate the tone-mapping parameters by minimizing the following cost function: 
+- <p align = "justify"> Then, a luminance feature (L) that represents the luminance histogram with uniformly sampled percentiles of the luminance cumulative distribution function (in this case, 32 samples) is extracted and used to estimate the tone-mapping parameters by minimizing the following cost function: </p>
 
 <p align="center"> 
 <img src="https://user-images.githubusercontent.com/41862477/50593706-7b331b00-0ebf-11e9-9df2-c71d43f0828f.jpg">
 </p>
 
-> *Results obtained after doing the **Color transfer** between the original and exemplary images, as described above:*
+> <p align = "justify"> <i> Results obtained after doing the **Color transfer** between the original and exemplary images, as described above: </i> </p>
 
 ![1](https://user-images.githubusercontent.com/41862477/50594272-e847b000-0ec1-11e9-99ac-f49add58878a.jpg)
 ![3](https://user-images.githubusercontent.com/41862477/50594273-e8e04680-0ec1-11e9-807a-9c51a53b2bc2.jpg)
