@@ -7,8 +7,9 @@ ___
 ## Aim
 >**To generate aesthetically pleasing, photorealistic composite by merging two selfies.**
 
-*You might be thinking, what does that even mean?
-Let me try to make things simpler and explain it to you in layman language. Suppose we have two selfies, so what we want to do is, extract any one subject (usually pointed out by the user through a click) from the first selfie and paste it **automatically** at the best possible location in the second selfie (considering the factors like aspect-ratio, zooming factor, etc.), without making the final composite look unnatural.*
+*You might be thinking, what does that even mean?*
+
+*Let me try to make things simpler and explain it to you in layman language. Suppose we have two selfies, so what we want to do is, extract any one subject (usually pointed out by the user through a click) from the first selfie and paste it **automatically** at the best possible location in the second selfie (considering factors like aspect and zoom ratio, etc. ) without making the final composite look unnatural.*
 
 Now, if you do a proper thought experiment, this seems to be a very complicated task since finding the best location in the second selfie among the many possible ones, while also keeping in mind the *spatial relationship between the subject and background (second selfie itself)* is not a trivial thing to do. The algorithm should be very robust to ***scale and rotational invariance***. Assuming we somehow found the solution to the above problem, still, we have another major difficulty in our way - The *lighting condition of the two selfies can be completely different (one can be in broad light, another one in backlight or one can be in bright daylight and another one in low dim nightlight).* So, we also need to match the **lighting conditions** of the background (second selfie) and foreground (subject) in a way that the overall composite looks natural.
 
@@ -16,10 +17,10 @@ ____
 
 ## Motivation
 
-*One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We all can do things mentioned below, in Adobe Photoshop, but that would require a lot of manual labor, technical skills and a large inference time.*
+*One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We can do all the things mentioned below, in **Adobe Photoshop**, but that would require a lot of **manual labor, technical skills and a high inference time**.*
 
 - People can create and share their memories just like a collage, for their **personal use.**
-- **Anime industry** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
+- **Anime production** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
 
 ___
 
@@ -27,8 +28,8 @@ ___
 
 The exciting part about the project was that neither has this **Image to Image translation** problem been explored much by Deep Learning nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts. 
 
-- Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position in the second selfie, where it would not look out of place.
-- Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground (subject) and background (second selfie) to give it a photo-realistic touch.
+- Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position (using some algorithm) in the second selfie, where it would not look out of place.
+- Using **Conditional GANs** to *match the lighting conditions and other statistical features* of the foreground (subject) and background (second selfie) to give it a *photo-realistic touch.*
 
 > Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **Microsoft COCO**, which was later used as an input for the second half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
 
