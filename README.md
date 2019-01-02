@@ -1,29 +1,27 @@
 # Image Compositing
 
-#### *Note: This work was done by me during the internship at Samsung Research Institute, last summer. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones.*
+#### *Note: This work was done by me during the summer internship last summer at Samsung Research Institute. It addresses an intriguing problem which I think is quite relevant from an industrial research point of view, especially for companies that are working on AI-powered smartphones.*
 
 ___
 
 ## Aim
->**In short, the aim was to generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.**
+>**To generate aesthetically pleasing, photorealistic composite by merging two (or more) selfies.**
 
 *You might be thinking, what does that even mean?*
 
-Let me try to make things simpler and explain it to you in layman language with the help of an example. Suppose we have two selfies, so what we want to do is, extract any one individual (usually pointed out by the user through a click) from the first selfie and paste it automatically at the best possible location in the second selfie, without making the composite look unnatural. 
+Let me try to make things simpler and explain it to you in layman language with the help of an example. Suppose we have two selfies, so what we want to do is, extract any one individual (usually pointed out by the user through a click) from the first selfie and paste it automatically at the best possible location in the second selfie (considering the factors like aspect-ratio, zooming factor, etc.), without making the composite look unnatural.
 
 >*I will be using the word subject to refer to the individual extracted from the first selfie, from now on, to keep the discussion manageable.* 
 
 Now, if you do a proper thought experiment, this seems to be a very complicated task since finding the best location in the second selfie among many possible ones, while also keeping in mind the spatial relationship between the subject and background (second selfie) is not a trivial thing to do. The algorithm should be very robust to scale and rotational invariance.
 
-Assuming we somehow found the solution of the above problem, still, we have another major difficulty in our way - The lighting condition of the two selfies can be completely different (one can be in broad light, another one in backlight or one can be in bright daylight and another one in low dim nightlight). So, we also need to match the lighting conditions of the background (second selfie) and foreground (subject) in a way that the overall composite looks natural. It should be clear by looking at the composite that both the individuals were present while clicking the selfie.
-
->***So, this was our final aim and hope that I was able to explain it clearly.*** 
+Assuming we somehow found the solution of the above problem, still, we have another major difficulty in our way - The lighting condition of the two selfies can be completely different (one can be in broad light, another one in backlight or one can be in bright daylight and another one in low dim nightlight). So, we also need to match the lighting conditions of the background (second selfie) and foreground (subject) in a way that the overall composite looks natural. 
 
 ____
 
 ## Motivation
 
-*One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We all can do things mentioned below, in Photoshop, but that would require a lot of manual labor and a significant inference time.*
+*One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We all can do things mentioned below, in Adobe Photoshop, but that would require a lot of manual labor, technical skills and a large inference time.*
 
 - People can create and share their memories just like a collage, for their **personal use.**
 - **Anime industry** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
@@ -37,14 +35,16 @@ The exciting part about the project was that neither has this **Image to Image t
 - Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position in the second selfie, where it would not look out of place.
 - Using **Conditional GANs** to match the lighting conditions and other statistical features of the foreground (subject) and background (second selfie) to give it a photo-realistic touch.
 
-> Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **COCO** data, which was later used as an input for the second half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
+> Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **Microsoft COCO**, which was later used as an input for the second half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
 
 ### Dataset Creation
 
 - Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image (should be uncrowded too). 
-- Masked a subject from the first selfie and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast, and color transfer* from the target object (of same semantic) in the second selfie. For color transfer, I computed statistics of the luminance and color temperature and used the histogram matching method.
+- Masked a subject from the first selfie and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast (method_1), and color transfer (method_2)* from the target object (of same semantic) in the second selfie.
 
 *This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background which can now act as a substitute for an object extracted from first selfie and pasted into another at the best possible location.*
+
+Let's do a much more detailed analysis of the second method used for creating the custom dataset. I used the **Style transfer** techniques proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper. 
 
 *Few images from the Dataset:*
 
