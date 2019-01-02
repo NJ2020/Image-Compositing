@@ -59,7 +59,7 @@ C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose
 Σ_original_img = max(Σ_original_img , λrI)
 ```
 
-##### Luminance:
+#### Luminance:
 Contrast and Tone were handled using Histogram matching between the luminance channels of the input and style exemplary images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. So, 
 - A new parametric model is designed for the luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: 
 
@@ -73,13 +73,13 @@ Contrast and Tone were handled using Histogram matching between the luminance ch
 <img src="https://user-images.githubusercontent.com/41862477/50593706-7b331b00-0ebf-11e9-9df2-c71d43f0828f.jpg">
 </p>
 
-> Results obtained after doing the **Color transfer** between the original and exemplary images, as described above:
+> *Results obtained after doing the **Color transfer** between the original and exemplary images, as described above:*
 
 ![1](https://user-images.githubusercontent.com/41862477/50594272-e847b000-0ec1-11e9-99ac-f49add58878a.jpg)
 ![3](https://user-images.githubusercontent.com/41862477/50594273-e8e04680-0ec1-11e9-807a-9c51a53b2bc2.jpg)
 ![img_0](https://user-images.githubusercontent.com/41862477/50594274-e8e04680-0ec1-11e9-97f6-376921271abf.jpg)
 
-*Few images from the Dataset:*
+*Images from the Dataset generated using the above two methods:*
 
 ![1](https://user-images.githubusercontent.com/41862477/49573700-aa0fad00-f964-11e8-8466-7bd4d7780fa5.JPG)
 ![2](https://user-images.githubusercontent.com/41862477/49573701-aa0fad00-f964-11e8-84a9-2ca1f3d8da40.JPG)
