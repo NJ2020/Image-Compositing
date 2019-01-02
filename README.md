@@ -59,7 +59,7 @@ Let's do a much more detailed analysis of the second method used for creating th
 
 ![1](https://user-images.githubusercontent.com/41862477/50593661-31e2cb80-0ebf-11e9-8128-b7d123ad2cba.jpg)
 
-They extracted a luminance feature, L, that represents the luminance histogram with uniformly sampled percentiles of the luminance cumulative distribution function (32 samples). They estimated the tone-mapping parameters by minimizing the cost function: 
+- They extracted a luminance feature, L, that represents the luminance histogram with uniformly sampled percentiles of the luminance cumulative distribution function (32 samples). They estimated the tone-mapping parameters by minimizing the cost function: 
 
 ![1](https://user-images.githubusercontent.com/41862477/50593706-7b331b00-0ebf-11e9-9df2-c71d43f0828f.jpg)
 
