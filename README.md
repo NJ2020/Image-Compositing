@@ -51,16 +51,20 @@ ___
 
 #### Chrominance:
 <p align = "justify"> Color transfer method used here maps the statistics of the chrominance channels of the two images. The chrominance distribution of an image is modeled using a <i> <b> multivariate Gaussian </i> </b>, and a transfer function is designed that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplary S to the Gaussian statistics N (µI , ΣI ) of the input image I as: </p> 
+
 ``` 
 C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img 
 ```
+
 <p align = "justify">, where T is a linear transformation that maps chrominance between the images and, C_input(x) is the chrominance at pixel x of the input image. The solution is unstable for low input covariance values, leading to color artifacts when the input has low color variation. To avoid this, regularize the solution by clipping diagonal elements of Σ_original_img as </p>
+
 ``` 
 Σ_original_img = max(Σ_original_img , λrI)
 ```
 
 #### Luminance:
 <p align = "justify"> Contrast and Tone were handled using Histogram matching between the luminance channels of the input and style exemplary images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. So, </p>
+
 - <p align = "justify"> A new parametric model is designed for the luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: </p> 
 
 <p align="center"> 
