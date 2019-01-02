@@ -17,7 +17,7 @@ ____
 
 ## Motivation
 
-*One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We can do all the things mentioned below, in **Adobe Photoshop**, but that would require a lot of **manual labor, technical skills and a high inference time**.*
+<p align = "justify"> <i> One can imagine many potential use cases of it, but I would like to state few, which I can think off the top of my head. We can do all the things mentioned below, in <b> Adobe Photoshop </b>, but that would require a lot of <b> manual labor, technical skills and a high inference time. </b> </i> </p>
 
 - People can create and share their memories just like a collage, for their **personal use.**
 - **Anime production** can use it to create CGI scenes by skipping the intermediate step of the 3D rendering of an object.   
@@ -26,7 +26,7 @@ ___
 
 ## Problem Breakdown
 
-The exciting part about the project was that neither has this **Image to Image translation** problem been explored much by Deep Learning nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts. 
+<p align = "justify"> The exciting part about the project was that neither has this <b> Image to Image translation </b> problem been explored much by Deep Learning nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts. </p>
 
 - Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position (using some algorithm) in the second selfie, where it would not look out of place.
 - Using **Conditional GANs** to *match the lighting conditions and other statistical features* of the foreground (subject) and background (second selfie) to give it a *photo-realistic touch.*
