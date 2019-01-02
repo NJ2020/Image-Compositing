@@ -44,7 +44,13 @@ The exciting part about the project was that neither has this **Image to Image t
 
 *This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background which can now act as a substitute for an object extracted from first selfie and pasted into another at the best possible location.*
 
-Let's do a much more detailed analysis of the second method used for creating the custom dataset. I used the **Style transfer** techniques proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper. 
+Let's do a much more detailed analysis of the second method used for creating the custom dataset. I used the **Style transfer** techniques proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper to produce compelling, artifact-free results. 
+
+#### Key-Insights:
+
+- To effectively stylize images with global transforms, they first compressed the dynamic ranges of the two images using a γ (= 2.2) mapping and converted the images into the CIELab colorspace (because it decorrelates the different channels well). Then, they stretched the luminance (L channel) to cover the full dynamic range after clipping both the minimum and the maximum 0.5 percent pixels of luminance levels, and applied different transfer functions to the luminance and chrominance components.
+
+- Color transfer method used here maps the statistics of the chrominance channels of the two images. They modeled the chrominance distribution of an image using a ***multivariate Gaussian***, and found a transfer function that creates the output image O by mapping the Gaussian statistics NS (µS, ΣS) of the style exemplar S to the Gaussian statistics NI (µI , ΣI ) of the input image I as: ``` C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img ```, where T is a linear transformation that maps chrominance between the images and C_input(x) is the chrominance at pixel x of the input image.
 
 *Few images from the Dataset:*
 
