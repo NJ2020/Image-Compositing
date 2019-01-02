@@ -40,7 +40,7 @@ The exciting part about the project was that neither has this **Image to Image t
 
 *This way the output will be a composite in which the statistical features of one of the subjects will be completely different compared to that of its background and, can act as a perfect substitute for an object extracted from the first selfie and pasted into another at the best possible location.*
 
-Now, let's do a much more detailed analysis of the second method used for creating the custom dataset. The method used was the **Style transfer** proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper to produce compelling, and artifact-free stylized output. It can be broken down into the following three steps: 
+Now, let's do a much more detailed analysis of the second method used to create the custom dataset. Method used was, **Style transfer** proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper to produce compelling, and artifact-free stylized output. The whole process can be broken down into the following three steps: 
 
 #### Pre-processing:
 
@@ -50,7 +50,7 @@ Now, let's do a much more detailed analysis of the second method used for creati
 - Apply the different transfer functions to the luminance and chrominance components as described below.
 
 #### Chrominance:
-Color transfer method used here maps the statistics of the chrominance channels of the two images. The chrominance distribution of an image is modeled using a ***multivariate Gaussian***, and a transfer function is designed that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplar S to the Gaussian statistics N (µI , ΣI ) of the input image I as: 
+Color transfer method used here maps the statistics of the chrominance channels of the two images. The chrominance distribution of an image is modeled using a ***multivariate Gaussian***, and a transfer function is designed that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplary S to the Gaussian statistics N (µI , ΣI ) of the input image I as: 
 ``` 
 C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img 
 ```
@@ -60,15 +60,16 @@ C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose
 ```
 
 ##### Luminance:
-- They matched contrast and tone using histogram matching between the luminance channels of the input and style exemplar images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. Instead, they designed a new parametric model of luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: 
+Contrast and Tone were handled using Histogram matching between the luminance channels of the input and style exemplary images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. So, 
+- A new parametric model is designed for the luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: 
 
 ![1](https://user-images.githubusercontent.com/41862477/50593661-31e2cb80-0ebf-11e9-8128-b7d123ad2cba.jpg)
 
-- They extracted a luminance feature, L, that represents the luminance histogram with uniformly sampled percentiles of the luminance cumulative distribution function (32 samples). They estimated the tone-mapping parameters by minimizing the cost function: 
+- Then, a luminance feature (L) that represents the luminance histogram with uniformly sampled percentiles of the luminance cumulative distribution function (in this case, 32 samples) is extracted and used to estimate the tone-mapping parameters by minimizing the following cost function: 
 
 ![1](https://user-images.githubusercontent.com/41862477/50593706-7b331b00-0ebf-11e9-9df2-c71d43f0828f.jpg)
 
-Results:
+> Results obtained after doing the **Color transfer** between the original and exemplary images, as described above:
 
 ![1](https://user-images.githubusercontent.com/41862477/50594272-e847b000-0ec1-11e9-99ac-f49add58878a.jpg)
 ![3](https://user-images.githubusercontent.com/41862477/50594273-e8e04680-0ec1-11e9-807a-9c51a53b2bc2.jpg)
