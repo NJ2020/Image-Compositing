@@ -40,7 +40,7 @@ ___
 
 <p align = "justify"> <i> This way the output was a composite in which the statistical features of one of the subjects will be completely different compared to that of its background and, can act as a perfect substitute for an object extracted from the first selfie and pasted into another at the best possible location. </i> </p>
 
-<p align = "justify"> Now, let's do a much more detailed analysis of the second method used to create the custom dataset. Method used was,  <b> Style transfer </b> proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper to produce compelling, and artifact-free stylized output. The whole process can be broken down into the following three steps: </p>
+<p align = "justify"> Now, let's do a much more detailed analysis of the second method used to create the custom dataset. Method used was,  <b> Style transfer </b> proposed by the authors of [https://arxiv.org/pdf/1511.03748.pdf] paper to produce compelling, and artifact-free stylized output. The whole process can be broken down into the following three steps: </p>
 
 #### Pre-processing:
 
@@ -91,39 +91,55 @@ C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose
 
 <p align = "justify"> COCO dataset has originally around 40,000 images in which category <b> people </b> covered a significant portion of the image. I tried my best to ensure that, the model is producing composites that are neither arbitrary nor unrealistic in color and tone; but sadly, there were still a few images that one would ideally want to discard from his/her dataset while training the Deep Learning model (<b> Garbage In Garbage Out </b> is one of the most common phrases in Machine Learning). The problem was that, it will be difficult for one to go through every image and filter out every bad composite (a tedious and repulsive task to do). </p> 
 
-> <p align = "justify"> So, to overcome those issues, I trained a Deep <b> discriminative </b> CNN model which learned the perception of visual realism in terms of <b> color, lighting and texture compatibility </b>, from a large amount of <b> unlabelled data </b>. It was able to make a proper distinction between the natural images and automatically generated image composites. By using this model, I was able to discard very unnatural looking composites from the raw custom dataset. <i> Now, finally, we have a collection of composites in which the edited object still looks plausible, but does not match the background context. </i>
+### Learning the Perception of Realism
+
+<p align = "justify"> So, to overcome those issues, I trained a Deep <b> discriminative </b> CNN model which learned the perception of visual realism in terms of <b> color, lighting and texture compatibility </b>, from a large amount of <b> unlabelled data </b>. It was able to make a proper distinction between the natural images and automatically generated image composites. By using this model, I was able to discard very unnatural looking composites from the raw custom dataset. <i> Now, finally, we have a collection of composites in which the edited object still looks plausible, but does not match the background context. </i> </p>
 
 ### Training ConditionalGAN:
 
-Given the dataset and final aim in mind, I reduced the remaining task to **Image to Image translation** problem (Motivated by this astounding paper [Pix2pix](https://arxiv.org/pdf/1611.07004.pdf)). In analogy to automatic language translation, automatic image-to-image translation refers to the task of translating one possible representation of an image into another, given sufficient training data. I deployed **Conditional Generative Adversarial networks** not only to learn the mapping from the input image to the output image but also to learn a loss function to train this mapping. This generic approach alleviated the issues that would traditionally require very different loss formulations (Image compositing has already been thoroughly investigated by Image Processing community, and there are numerous proposals to get some decent results by following some specific, hand designed approach. However, they aren't scalable at all for obvious reasons).
+<p align = "justify"> Given the dataset and final aim in mind, I reduced the remaining task to <b> Image to Image translation </b> problem (Motivated by this astounding paper [https://arxiv.org/pdf/1611.07004.pdf]). In analogy to automatic language translation, automatic image-to-image translation refers to the task of translating one possible representation of an image into another, given sufficient training data. I deployed <b> Conditional Generative Adversarial networks </b> not only to learn the mapping from the input image to the output image but also to learn a loss function to train this mapping. This generic approach alleviated the issues that would traditionally require very different loss formulations (Image compositing has already been thoroughly investigated by Image Processing community, and there are numerous proposals to get some decent results by following some specific, hand-designed approach; however, they aren't scalable at all for obvious reasons).
 
 ___
 
 ## Pix2pix
 
-> ***If you are unfamiliar with GANs, I would request you to look into some of the GAN tutorials and then proceed forward.***
+> <p align = "justify"> <b> <i> If you are unfamiliar with GANs, I would request you to look into some of the GAN tutorials before proceeding forward. </b> </i> </p>
 
-From now on, I will only be giving you the overview of **Pix2pix** paper and the changes (mostly in the architecture and loss function) that I made to make the model work properly; remaining details are nearly the same. Like other GANs, Conditional GANs also have one discriminator (or critic depending on the loss function you are using) and one generator, and it tries to learn a conditional generative model which makes it suitable for image-to-image translation tasks, where we condition on an input image and generate a corresponding output image. 
+<p align = "justify"> From now on, I will only be giving you the overview of <b> Pix2pix </b> paper and the changes (mostly in the architecture and loss function) that I made to make the model work properly; remaining details are nearly the same. Like other GANs, Conditional GANs also have one discriminator (or critic depending on the loss function you are using) and one generator, and it tries to learn a conditional generative model which makes it suitable for image-to-image translation tasks, where we condition on an input image and generate a corresponding output image. </p> 
 
-> If mathematically expressed, CGANs learn a mapping from observed image X and random noise vector z, to y, *G : {x, z} → y*. The generator G is trained to produce outputs that cannot be distinguished from **real** images by an adversarially trained discriminator, D, which in turn is itself optimized to do as well as possible at identifying the generator’s **fakes**.
+> <p align = "justify">  If mathematically expressed, CGANs learn a mapping from observed image X and random noise vector z, to y, <i> G : {x, z} → y </i>. The generator G is trained to produce outputs that cannot be distinguished from <b> real </b> images by an adversarially trained discriminator, D, which in turn is itself optimized to do as well as possible at identifying the generator’s <b> fakes </b>.
 
 ### Loss Function
 
 The objective of a conditional GAN can be expressed as:
 
-> **```Lc GAN (G, D) = Ex,y (log D(x, y)) + Ex,z (log(1 − D(x, G(x, z)))```** where G tries to minimize this objective against an adversarial D that tries to maximize it, i.e. **```G∗ = arg min(G)max(D) Lc GAN (G, D)```**. It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance to make sure that, the ground truth and the output are close to each other in L1 sense **```L(G) = Ex,y,z ( ||y − G(x, z)|| )```**.
+```
+Lc GAN (G, D) = Ex,y (log D(x, y)) + Ex,z (log(1 − D(x, G(x, z)))
+```
 
-Without z, the net could still learn a mapping from x to y, but would produce deterministic outputs, and therefore fail to match any distribution other than a **delta function**. Instead, the authors of Pix2pix provided noise only in the form of **dropout**, applied on several layers of the generator at **both training and test time**.
+<p align = "justify"> , where G tries to minimize this objective against an adversarial D that tries to maximize it, i.e. </p> 
 
-The Min-Max objective mentioned above was used in the original paper when GAN was first proposed by **Ian Goodfellow** in 2014, but unfortunately, it doesn't perform well due to vanishing gradients problems. Since then, there has been a lot of development, and many researchers have proposed different kinds of loss formulation (LS-GAN, WGAN, WGAN-GP) to overcome these issues. 
+```
+G∗ = arg min(G)max(D) Lc GAN (G, D)
+```
+
+<p align = "justify"> It is beneficial to mix the GAN objective with a more traditional loss, such as L1 distance to make sure that, the ground truth and the output are close to each other in L1 sense </p>
+
+```
+L(G) = Ex,y,z ( ||y − G(x, z)|| )
+```
+
+<p align = "justify"> Without z, the net could still learn a mapping from x to y, but would produce deterministic outputs, and therefore would fail to match any distribution other than a <b> delta function </b>. Instead, the authors of Pix2pix provided noise only in the form of <b> dropout </b>, applied on several layers of the generator at <b> both training and test time </b>. </p>
+
+<p align = "justify"> The Min-Max objective mentioned above was used in the original paper when GAN was first proposed by <b> Ian Goodfellow </b> in 2014, but unfortunately, it doesn't perform well due to vanishing gradients problems. Since then, there has been a lot of development, and many researchers have proposed different kinds of loss formulation (LS-GAN, WGAN, WGAN-GP) to overcome these issues. </p> 
 
 I played around with two such loss functions as mentioned below: 
 - **Least-Square GAN loss**, and
 - **Wasserstein GAN loss** (both with and without Gradient penalty)
 
-> Minimizing Least Square GAN loss in the optimization procedure yielded me better results, in a far lower number of training iterations compared to Wasserstein GAN loss. WGAN was very slow to train (because of the multiple updates needed to be done for the critic for each update of the generator) and there were also some weird artifacts in the output composite.  
+> <p align = "justify"> Minimizing Least Square GAN loss in the optimization procedure yielded me better results, in a far lower number of training iterations compared to Wasserstein GAN loss. WGAN was very slow to train (because of the multiple updates needed for the critic for each update of the generator) and there were also some weird artifacts in the output composite. </p> 
 
-However, there was a recent paper by **Google** which addressed this issue and stated that "None of the loss functions is optimal in every scenario", it's always task dependent (maybe WGAN can perform better than LS-GAN in one task, while the other way around has also equally likely chance to happen in some different scenario). So, before switching to a different loss function, you should instead focus on extensive hyper-parameter optimization. Training GANs is very tricky, and it will never work in the first attempt, you might even want to look into the capacity of your architecture. There was this, one recent theoretical paper on GANs by [Sanjeev Arora](https://arxiv.org/abs/1706.08224) in which he mentioned that the generator's minimum capacity should be as large as the capacity of the discriminator squared. 
+<p align = "justify"> However, there was this recent paper by <b> Google </b> which addressed the issue and stated that "None of the loss functions deliver optimal output in every possible scenario"; it's always task dependent (maybe WGAN can perform better than LS-GAN in one task, while the other way around is also likely to happen in some different task). So, before switching to a different loss function, we should instead focus on extensive hyper-parameter optimization. Training GANs is very tricky, and it will never-ever work in the first attempt, we might even want to look into the capacity of our architecture. There was one recent theoretical paper on GANs by Sanjeev Arora, [https://arxiv.org/abs/1706.08224] in which he mentioned that the generator's minimum capacity should be as large as the capacity of the discriminator squared. </p> 
 
 ### Network Architecture
 
