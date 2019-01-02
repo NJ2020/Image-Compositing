@@ -63,11 +63,15 @@ C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose
 Contrast and Tone were handled using Histogram matching between the luminance channels of the input and style exemplary images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. So, 
 - A new parametric model is designed for the luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: 
 
-![1](https://user-images.githubusercontent.com/41862477/50593661-31e2cb80-0ebf-11e9-8128-b7d123ad2cba.jpg)
+<p align="center"> 
+<img src="https://user-images.githubusercontent.com/41862477/50593661-31e2cb80-0ebf-11e9-8128-b7d123ad2cba.jpg">
+</p>
 
 - Then, a luminance feature (L) that represents the luminance histogram with uniformly sampled percentiles of the luminance cumulative distribution function (in this case, 32 samples) is extracted and used to estimate the tone-mapping parameters by minimizing the following cost function: 
 
-![1](https://user-images.githubusercontent.com/41862477/50593706-7b331b00-0ebf-11e9-9df2-c71d43f0828f.jpg)
+<p align="center"> 
+<img src="https://user-images.githubusercontent.com/41862477/50593706-7b331b00-0ebf-11e9-9df2-c71d43f0828f.jpg">
+</p>
 
 > Results obtained after doing the **Color transfer** between the original and exemplary images, as described above:
 
