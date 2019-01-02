@@ -31,21 +31,23 @@ The exciting part about the project was that neither has this **Image to Image t
 - Running an **instance segmentation** over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position (using some algorithm) in the second selfie, where it would not look out of place.
 - Using **Conditional GANs** to *match the lighting conditions and other statistical features* of the foreground (subject) and background (second selfie) to give it a *photo-realistic touch.*
 
-> Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **Microsoft COCO**, which was later used as an input for the second half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
-
 ### Dataset Creation
 
+> Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using **Microsoft COCO**, which was later used as an input for the second half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: 
+
 - Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image (should be uncrowded too). 
-- Masked a subject from the first selfie and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast (method_1), and color transfer (method_2)* from the target object (of same semantic) in the second selfie.
+- Masked a subject from the first image and edited its appearance using Image processing techniques like *random perturbation in brightness/contrast/saturation (method_1), and color transfer (method_2)* from the target object (with same semantic) of the second image.
 
-*This way I had a composite in which the statistical features of one of the subjects was completely different compared to its background which can now act as a substitute for an object extracted from first selfie and pasted into another at the best possible location.*
+*This way the output will be a composite in which the statistical features of one of the subjects will be completely different compared to that of its background and, can act as a perfect substitute for an object extracted from the first selfie and pasted into another at the best possible location.*
 
-Let's do a much more detailed analysis of the second method used for creating the custom dataset. I used the **Style transfer** techniques proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper to produce compelling, artifact-free results. 
+Now, let's do a much more detailed analysis of the second method used for creating the custom dataset. The method used was the **Style transfer** proposed by the authors of [this](https://arxiv.org/pdf/1511.03748.pdf) paper to produce compelling, and artifact-free stylized output. It can be broken down into the following three steps: 
 
-#### Key-Insights:
+#### Pre-processing:
 
-##### Pre-processing:
-- To effectively stylize images with global transforms, they first compressed the dynamic ranges of the two images using a γ (= 2.2) mapping and converted the images into the CIELab colorspace (because it decorrelates the different channels well). Then, they stretched the luminance (L channel) to cover the full dynamic range after clipping both the minimum and the maximum 0.5 percent pixels of luminance levels, and applied different transfer functions to the luminance and chrominance components.
+*To effectively stylize images with global transforms,*
+- Compress the dynamic ranges of the two images using a γ (= 2.2) mapping and convert the images into the LAB colorspace (because it decorrelates the different channels well). 
+- Stretch the luminance (L channel) to cover the full dynamic range after clipping both the minimum and the maximum 0.5 percent pixels of luminance levels. 
+- Apply the different transfer functions to the luminance and chrominance components as described below.
 
 ##### Chrominance:
 - Color transfer method used here maps the statistics of the chrominance channels of the two images. They modeled the chrominance distribution of an image using a ***multivariate Gaussian***, and found a transfer function that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplar S to the Gaussian statistics N (µI , ΣI ) of the input image I as: ``` C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img ```, where T is a linear transformation that maps chrominance between the images and C_input(x) is the chrominance at pixel x of the input image. This solution was unstable for low input covariance values, leading to color artifacts when the input has low color variation. To avoid this, they regularized this solution by clipping diagonal elements of Σ_original_img as ``` Σ_original_img = max(Σ_original_img , λrI)```
