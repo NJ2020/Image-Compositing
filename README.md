@@ -52,7 +52,7 @@ Let's do a much more detailed analysis of the second method used for creating th
 - To effectively stylize images with global transforms, they first compressed the dynamic ranges of the two images using a γ (= 2.2) mapping and converted the images into the CIELab colorspace (because it decorrelates the different channels well). Then, they stretched the luminance (L channel) to cover the full dynamic range after clipping both the minimum and the maximum 0.5 percent pixels of luminance levels, and applied different transfer functions to the luminance and chrominance components.
 
 ##### Chrominance:
-- Color transfer method used here maps the statistics of the chrominance channels of the two images. They modeled the chrominance distribution of an image using a ***multivariate Gaussian***, and found a transfer function that creates the output image O by mapping the Gaussian statistics NS (µS, ΣS) of the style exemplar S to the Gaussian statistics NI (µI , ΣI ) of the input image I as: ``` C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img ```, where T is a linear transformation that maps chrominance between the images and C_input(x) is the chrominance at pixel x of the input image. This solution was unstable for low input covariance values, leading to color artifacts when the input has low color variation. To avoid this, they regularized this solution by clipping diagonal elements of Σ_original_img as ``` Σ_original_img = max(Σ_original_img , λrI)```
+- Color transfer method used here maps the statistics of the chrominance channels of the two images. They modeled the chrominance distribution of an image using a ***multivariate Gaussian***, and found a transfer function that creates the output image O by mapping the Gaussian statistics N (µS, ΣS) of the style exemplar S to the Gaussian statistics N (µI , ΣI ) of the input image I as: ``` C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose(T)  = Σ_style_img ```, where T is a linear transformation that maps chrominance between the images and C_input(x) is the chrominance at pixel x of the input image. This solution was unstable for low input covariance values, leading to color artifacts when the input has low color variation. To avoid this, they regularized this solution by clipping diagonal elements of Σ_original_img as ``` Σ_original_img = max(Σ_original_img , λrI)```
 
 ##### Luminance:
 - They matched contrast and tone using histogram matching between the luminance channels of the input and style exemplar images. Direct histogram matching typically results in arbitrary transfer functions and may produce artifacts due to non-smooth mapping or excessive stretching/compressing of the luminance values. Instead, they designed a new parametric model of luminance mapping that allows for strong expressiveness and regularization simultaneously. The transfer function is defined as: 
@@ -63,6 +63,11 @@ Let's do a much more detailed analysis of the second method used for creating th
 
 ![1](https://user-images.githubusercontent.com/41862477/50593706-7b331b00-0ebf-11e9-9df2-c71d43f0828f.jpg)
 
+Results:
+
+![1](https://user-images.githubusercontent.com/41862477/50594272-e847b000-0ec1-11e9-99ac-f49add58878a.jpg)
+![3](https://user-images.githubusercontent.com/41862477/50594273-e8e04680-0ec1-11e9-807a-9c51a53b2bc2.jpg)
+![img_0](https://user-images.githubusercontent.com/41862477/50594274-e8e04680-0ec1-11e9-97f6-376921271abf.jpg)
 
 *Few images from the Dataset:*
 
