@@ -139,30 +139,33 @@ I played around with two such loss functions as mentioned below:
 
 > <p align = "justify"> Minimizing Least Square GAN loss in the optimization procedure yielded me better results, in a far lower number of training iterations compared to Wasserstein GAN loss. WGAN was very slow to train (because of the multiple updates needed for the critic for each update of the generator) and there were also some weird artifacts in the output composite. </p> 
 
-<p align = "justify"> However, there was this recent paper by <b> Google </b> which addressed the issue and stated that "None of the loss functions deliver optimal output in every possible scenario"; it's always task dependent (maybe WGAN can perform better than LS-GAN in one task, while the other way around is also likely to happen in some different task). So, before switching to a different loss function, we should instead focus on extensive hyper-parameter optimization. Training GANs is very tricky, and it will never-ever work in the first attempt, we might even want to look into the capacity of our architecture. There was one recent theoretical paper on GANs by Sanjeev Arora, [https://arxiv.org/abs/1706.08224] in which he mentioned that the generator's minimum capacity should be as large as the capacity of the discriminator squared. </p> 
+<p align = "justify"> <i> There is one recent paper released by <b> Google </b> which addressed this issue and stated that "None of the loss functions are optimal"; it's always task dependent (maybe WGAN can perform better than LS-GAN in one task, while the other way around is also equally likely to happen in some different task). So, before switching to a different loss function, we should instead focus on extensive hyper-parameter optimization. As, training GANs is very tricky, and it will never-ever work in the first attempt, so we might even want to look into the capacity of our architecture. One recent theoretical paper on GANs by Sanjeev Arora, [https://arxiv.org/abs/1706.08224] claimed that the generator's minimum capacity should be as large as the capacity of the discriminator squared. </i> </p> 
 
 ### Network Architecture
 
 #### Generator: 
 
-In Image-to-image translation problems, we map a high resolution input grid to a high resolution output grid. Both are renderings of the same underlying structure with the only difference in the surface appearance. The authors designed the generator architecture around these considerations. They used an encoder-decoder network in which the input is passed through a series of layers that progressively downsample, until a bottleneck layer, at which point the process is reversed. 
+<p align = "justify"> In Image-to-image translation problems, we map a high resolution input grid to a high resolution output grid. Both are renderings of the same underlying structure with the only difference in the surface appearance. The authors designed the generator architecture around these considerations. They used an encoder-decoder network in which the input is passed through a series of layers that progressively downsample, until a bottleneck layer, at which point the process is reversed. </p>
 
-> To preserve the low-level details, skip connections were used. Specifically, skip connections are added between each layer i and layer n − i, where n is the total number of layers. Each skip connection simply concatenates all channels at layer i with those at layer n − i.
+> <p align = "justify"> To preserve the low-level details, skip connections were used. Specifically, skip connections are added between each layer i and layer n − i, where n is the total number of layers. Each skip connection simply concatenates all channels at layer i with those at layer n − i. </p>
 
-```Architecture: 
+```
+Architecture: 
 Encoder:  E(64, 1) - E(64, 1) - E(64, 2) - E(128, 2) - E(256, 2) - E(512, 2) - E(512, 2) - E(512, 2) - E(512, 2)
 Decoder:  D(512, 2) - D(512, 2) - D(512, 2) - D(256, 2) - D(128, 2) - D(64, 2) - D(64, 2) - D(64, 1) - D(3, 1)
 ```
 
 #### Discriminator:
 
-The GAN discriminator models high-frequency structure term, relying on an L1 term to force low-frequency correctness. In order to model high-frequencies, it is sufficient to restrict the attention to the structure in local image patches. Therefore, discriminator architecture was termed PatchGAN – that only penalizes structure at the scale of patches. This discriminator tries to classify if each N × N patch in an image is real or fake. We run this discriminator convolutionally across the image, and average all responses to provide the ultimate output of D.
+<p align = "justify"> The GAN discriminator models high-frequency structure term, relying on an L1 term to force low-frequency correctness. In order to model high-frequencies, it is sufficient to restrict the attention to the structure in local image patches. Therefore, discriminator architecture was termed <b> PatchGAN </b> – that only penalizes structure at the scale of patches. This discriminator tries to classify if each N × N patch in an image is real or fake. We run this discriminator convolutionally across the image, and average all responses to provide the ultimate output of D. </p>
 
-> Instead of using vanilla convolutional layers to increase the receptive field (or decrease the size of the image), I tried using **WideResNet-Block** in my experiments with the instance normalization sliced between the conv layers. This worked better than from what suggested in the original paper; maybe we actually need a larger number of trainable parameters for the discriminator in this case. The receptive field was also, that of the full image as opposed to 70 * 70 (used originally).
+> <p align = "justify"> Instead of using Vanilla convolutional layers to increase the receptive field (or decrease the size of the image), I tried using <b> WideResNet-Block </b> in my experiments with the instance normalization sliced between the conv layers. This worked better than from what suggested in the original paper; maybe we actually need a larger number of trainable parameters for the discriminator in this case. The receptive field was also, that of the full image as opposed to 70 * 70 (proposed originally). </p>
 
-The original Patch-gan was giving some weird artifacts due to the fact that, it was optimized for some different task (Authors pointed out that receptive field of 70 * 70 was giving best results, compared to any smaller or larger receptive field). Patch GANs discriminator effectively models the image as a Markov random field, assuming independence between pixels separated by more than a patch diameter.
+<p align = "justify"> The original Patch-gan was giving some weird artifacts due to the fact that, it was optimized for some different task (Authors pointed out that receptive field of 70 * 70 was giving best results, compared to any smaller or larger receptive field). Patch GANs discriminator effectively models the image as a Markov random field, assuming independence between pixels separated by more than a patch diameter. </p>
 
-```Architecture: WRB64 - WRB128 - WRB256 - WRB512```
+```
+Architecture: WRB64 - WRB128 - WRB256 - WRB512
+```
 
 ___
 
