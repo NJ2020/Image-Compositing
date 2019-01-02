@@ -29,11 +29,11 @@ ___
 <p align = "justify"> The exciting part about the project was that neither has this <b> Image to Image translation </b> problem been explored much by Deep Learning nor are there any publicly available datasets for Image Compositing. So, as I started pondering on how to approach this complex task at hand, I decided to divide the whole project into two parts. </p>
 
 - <p align = "justify"> Running an <b> instance segmentation </b> over the first selfie to extract the relevant subject from it and then, to automatically place it at the most suitable position (using some algorithm) in the second selfie, where it would not look out of place. </p>
-- <p align = "justify"> Using **Conditional GANs** to <i> match the lighting conditions and other statistical features </i> of the foreground (subject) and background (second selfie) to give it a  <i> photo-realistic touch. </i> </p>
+- <p align = "justify"> Using <b> Conditional GANs </b> to <i> match the lighting conditions and other statistical features </i> of the foreground (subject) and background (second selfie) to give it a  <i> photo-realistic touch. </i> </p>
 
 ### Dataset Creation
 
-<p align = "justify"> Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using <b> Microsoft COCO </b>, which was later used as an input for the second half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: </p>
+> <p align = "justify"> Due to time constraints, I took a slight detour, spent a considerable amount of time creating my custom dataset using <b> Microsoft COCO </b>, which was later used as an input for the second half. Creating a meaningful dataset while keeping the final aim of the project in mind was the most challenging task since it was the only way to get the best possible proxy for the first part. Following is a brief overview of what I did: </p>
 
 - <p align = "justify">  Picked any two random images from the whole dataset (original COCO) in which the category people covered a significant portion of the image (should be uncrowded too). </p>
 - <p align = "justify"> Masked a subject from the first image and edited its appearance using Image processing techniques like  <i> random perturbation in brightness/contrast/saturation (method_1), and color transfer (method_2) </i> from the target object (with same semantic) of the second image. </p> 
