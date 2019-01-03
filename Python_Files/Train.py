@@ -94,7 +94,8 @@ def generate_fake_validation_images(sess, epoch):
     loc = '...path to Validation set...'; 
     file_loc = [rel_path + loc + s for s in os.listdir(rel_path + loc)]
     val_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(file_loc))
-    val_dataset = val_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), [img_height, img_width]), 127.5), 1))
+    val_dataset = val_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), \
+                                                                                      [img_height, img_width]), 127.5), 1))
 
     val_iterator = val_dataset.make_one_shot_iterator(); next_element = val_iterator.get_next()
     
@@ -196,10 +197,17 @@ if Train:
     def sort_composite_filename(x): return int(x[4:-4])
 
     # Create a datset of composites
-    comp_dir = '/images/Composite/';
-    comp_fileloc = [rel_path + comp_dir + s for s in sorted(os.listdir(rel_path + comp_dir), key = sort_composite_filename)]
-    comp_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(comp_fileloc));
-    comp_dataset = comp_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), [img_height, img_width]), 127.5), 1))
+    comp_1_dir = '/images/Composite_1/';
+    comp_1_fileloc = [rel_path + comp_1_dir + s for s in sorted(os.listdir(rel_path + comp_1_dir), key = sort_composite_filename)]
+    comp_1_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(comp_1_fileloc));
+    comp_1_dataset = comp_1_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), \
+                                                                                            [img_height, img_width]), 127.5), 1))
+    
+    comp_2_dir = '/images/Composite_2/';
+    comp_2_fileloc = [rel_path + comp_2_dir + s for s in sorted(os.listdir(rel_path + comp_2_dir), key = sort_composite_filename)]
+    comp_2_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(comp_2_fileloc));
+    comp_2_dataset = comp_2_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), \
+                                                                                            [img_height, img_width]), 127.5), 1))
 
     # Sorting the filename wrt unique indices of each image
     def sort_natural_filename(x): return int(x[4:-4])
@@ -208,10 +216,14 @@ if Train:
     nat_dir = '/images/Natural/'
     nat_fileloc = [rel_path + nat_dir + s for s in sorted(os.listdir(rel_path + nat_dir), key = sort_natural_filename)]
     nat_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(nat_fileloc));
-    nat_dataset = nat_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), [img_height, img_width]), 127.5), 1))
+    nat_dataset = nat_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), \
+                                                                                      [img_height, img_width]), 127.5), 1))
 
     # Create a final dataset by zipping the above two [in order to ensure that composite and its ground truth are together]
-    train_dataset = tf.data.Dataset.zip((comp_dataset, nat_dataset)).shuffle(2000).repeat()
+    train_1_dataset = tf.data.Dataset.zip((comp_1_dataset, nat_dataset)).shuffle(2000).repeat()
+    train_2_dataset = tf.data.Dataset.zip((comp_2_dataset, nat_dataset)).shuffle(2000).repeat()
+    train_dataset   = tf.stack([train_1_dataset, train_2_dataset], axis = 0);
+    
     train_dataset = (train_dataset.batch(batch_size)).prefetch(10);
 
     # Create an interator over the dataset 
@@ -268,7 +280,8 @@ if Test:
     loc = '...path to Test set...';
     file_loc = [rel_path + loc + s for s in os.listdir(rel_path + loc)]
     test_dataset = tf.data.Dataset.from_tensor_slices(tf.constant(file_loc))
-    test_dataset = test_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), [img_height, img_width]), 127.5), 1))
+    test_dataset = test_dataset.map(lambda x: tf.subtract(tf.div(tf.image.resize_images(tf.image.decode_jpeg(tf.read_file(x)), \
+                                                                                        [img_height, img_width]), 127.5), 1))
 
 #   Initialize the test iterator
     test_iterator = test_dataset.make_one_shot_iterator(); test_next_element = test_iterator.get_next()
