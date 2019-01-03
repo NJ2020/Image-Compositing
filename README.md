@@ -95,6 +95,12 @@ C_output(x) = T (C_input(x) − µI ) + µS s.t. T * Σ_original_img * transpose
 
 <p align = "justify"> So, to overcome those issues, I trained a Deep <b> discriminative </b> CNN model which learned the perception of visual realism in terms of <b> color, lighting and texture compatibility </b>, from a large amount of <b> unlabelled data </b>. It was able to make a proper distinction between the natural images and automatically generated image composites. By using this model, I was able to discard very unnatural looking composites from the raw custom dataset. <i> Now, finally, we have a collection of composites in which the edited object still looks plausible, but does not match the background context. </i> </p>
 
+#### Composites to which model assigns a very low score (hence, discarded from the datset):
+
+![img_3](https://user-images.githubusercontent.com/41862477/50624353-73b65500-0f45-11e9-9ae6-5747d6189140.jpg)
+![img_10](https://user-images.githubusercontent.com/41862477/50624354-744eeb80-0f45-11e9-9e23-bbf7c19c246f.jpg)
+![img_12](https://user-images.githubusercontent.com/41862477/50624355-744eeb80-0f45-11e9-87af-69b36890af77.jpg)
+
 ### Training ConditionalGAN:
 
 <p align = "justify"> Given the dataset and final aim in mind, I reduced the remaining task to <b> Image to Image translation </b> problem (Motivated by this astounding paper [https://arxiv.org/pdf/1611.07004.pdf]). In analogy to automatic language translation, automatic image-to-image translation refers to the task of translating one possible representation of an image into another, given sufficient training data. I deployed <b> Conditional Generative Adversarial networks </b> not only to learn the mapping from the input image to the output image but also to learn a loss function to train this mapping. This generic approach alleviated the issues that would traditionally require very different loss formulations (Image compositing has already been thoroughly investigated by Image Processing community, and there are numerous proposals to get some decent results by following some specific, hand-designed approach; however, they aren't scalable at all for obvious reasons).
